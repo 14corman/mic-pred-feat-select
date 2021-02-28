@@ -1,14 +1,8 @@
 # MPGA
 Mic Prediction using Gene Annotation
 
-# Introduction
-
-In this project, I will be using my research. Right now, when a patient comes into a hospital with a bacterial infection, it takes, on average, 72 hours to produce the Minimum Inhibitory Concentration (MIC) value for that patient's bacteria and an antibiotic. That MIC value dictates how resistant or susceptible a bacterium is to a given antibiotic, and thus tells the physician whether a given antibiotic will be effective at clearing the bacteria from the patient. This 72-hour window is extremely large though, and patients have a high likelihood of not surviving. Machine Learning, along with Next Generation Sequencing (NGS), can take this down to a few hours. From this, I plan on using annotated gene mutations from bacteria to predict MIC values, given some antibiotic. The input gene annotations will be in two forms:
-
-1. Human Genome Variation Society (HGVS) nomenclature (EX: R52\_D53insAC)
-2. Annotated Amino Acid (AA) sequences of genes (EX: ...RACD...)
-
-This information is like how D. Aytan-Aktug et al. viewed their input data (converting HGVS annotations into points using BLOSUM62 matrix and marking AAs in sequences with either 1 for mutation detected and -1 for no mutation detected), but I will be predicting MIC values rather than gene mutations that cause resistance.
+### More info
+More information can be found under the manuscript directory within the README file.
 
 # Figures
 
@@ -44,6 +38,7 @@ Each position in the sequence is marked with:
 There are two algorithms that will be used for prediction:
 1. [Neural Network](https://towardsdatascience.com/understanding-neural-networks-19020b758230)
 2. [Random Forest](https://towardsdatascience.com/understanding-random-forest-58381e0602d2)
+3. [Gradient Boosted Forests](https://towardsdatascience.com/basic-ensemble-learning-random-forest-adaboost-gradient-boosting-step-by-step-explained-95d49d1e2725)
 
 ## Steps
 1. Collect input data from JMI and Annotation pipeline
@@ -53,13 +48,3 @@ There are two algorithms that will be used for prediction:
 5. Test both algorithms with the Testing dataset (capture predictions from this)
 6. Create ROC plot and F1 scores from predictions and actual MICs used in previous step
 7. Create final ROC plot (figure 1) and F1 scores plot (figure 2)
-
-# References
-
-## Paper
-D. Aytan-Aktug, P. T. L. C. Clausen, V. Bortolaia, F. M. Aarestrup, and O. Lund. "Prediction of Acquired Antimicrobial Resistance for Multiple Bacterial Species Using Neural Networks". American Society for Microbiology Journals, January 5, 2020, e00774-19. [https://doi.org/10.1128/MSYSTEMS.00774-19](https://doi.org/10.1128/MSYSTEMS.00774-19).
-
-## Data
-[JMI Laboratories](https://www.jmilabs.com/)
-
-345 Beaver Kreek Center, Suite A, North Liberty, IA 52317
