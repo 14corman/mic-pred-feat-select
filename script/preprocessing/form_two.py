@@ -70,8 +70,8 @@ def create_ones_list(row, reference=[]):
     return ones
 
 
-def create_form_two(csv_name):
-    msa_df = pd.read_csv(f'{data_dir}{csv_name}')
+def create_form_two(csv_name, properties):
+    msa_df = pd.read_csv(f'{properties.data_dir}{csv_name}')
     msa_df = msa_df[msa_df.Name != 'consensus']     # Remove consensus row
 
     # Get the reference row, turn it into a list of lists (there will only be 1 row, so 1 list)
@@ -86,4 +86,4 @@ def create_form_two(csv_name):
 
     # Remove all gene columns
     msa_df = msa_df.drop(msa_df.columns[[x not in ['Name', 'ones'] for x in msa_df.columns]], axis=1)
-    msa_df.to_csv(f'{data_dir}processed/form_2.csv', index=False)
+    msa_df.to_csv(f'{properties.data_dir}processed/form_2.csv', index=False)

@@ -53,10 +53,10 @@ def convert(col):
     return new_col
 
 
-def create_form_three(csv_name):
+def create_form_three(csv_name, properties):
     # Setting first column as index here allows for column wise apply later
-    msa_df = pd.read_csv(f'{data_dir}{csv_name}', index_col=0)
+    msa_df = pd.read_csv(f'{properties.data_dir}{csv_name}', index_col=0)
     msa_df = msa_df[msa_df.index != 'consensus']
     msa_df = msa_df[msa_df.index != 'reference']
     msa_df = msa_df.apply(convert, axis=1, result_type='broadcast')
-    msa_df.to_csv(f'{data_dir}processed/form_3.csv')
+    msa_df.to_csv(f'{properties.data_dir}processed/form_3.csv')

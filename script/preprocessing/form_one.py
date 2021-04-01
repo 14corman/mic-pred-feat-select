@@ -32,8 +32,8 @@ def calc_score(row):
         return -2
 
 
-def create_form_one(csv_name):
-    ann_df = pd.read_csv(f'{data_dir}{csv_name}')
+def create_form_one(csv_name, properties):
+    ann_df = pd.read_csv(f'{properties.data_dir}{csv_name}')
     ann_df = ann_df.drop(['% coverage'], axis=1)
     ann_df['Score'] = ann_df.apply(calc_score, axis=1)
     ann_df = ann_df.drop(['Type', 'Ref', 'Position(s)', 'AA'], axis=1)
@@ -45,4 +45,4 @@ def create_form_one(csv_name):
     # Found: https://stackoverflow.com/a/22221675
     ann_df.groupby(['Isolate_ID', 'Gene'])['Score'].apply(list).reset_index(name='ann_lists')
 
-    ann_df.to_csv(f'{data_dir}processed/form_1.csv', index=False)
+    ann_df.to_csv(f'{properties.data_dir}processed/form_1.csv', index=False)
