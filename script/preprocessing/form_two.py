@@ -81,7 +81,7 @@ def create_form_two(csv_name):
     # Remove reference row
     msa_df = msa_df[msa_df.Name != 'reference']
 
-    # Create ones list for each row
+    # Create ones list for each row (reference is a kwarg for "create_ones_list" function)
     msa_df['ones'] = msa_df.apply(create_ones_list, axis=1, reference=reference)
 
     # Remove all gene columns

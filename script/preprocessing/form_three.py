@@ -9,3 +9,54 @@ sequences will be converted a sequence of numbers corresponding to the character
 occurres in the annotated sequence.
 NOTE: It does not rely on the reference sequence
 """
+
+import pandas as pd
+
+
+def convert(col):
+    characters = {
+        'A': 0,
+        'R': 1,
+        'N': 2,
+        'D': 3,
+        'C': 4,
+        'Q': 5,
+        'E': 6,
+        'G': 7,
+        'H': 8,
+        'I': 9,
+        'L': 10,
+        'K': 11,
+        'M': 12,
+        'F': 13,
+        'P': 14,
+        'S': 15,
+        'T': 16,
+        'W': 17,
+        'Y': 18,
+        'V': 19,
+        'B': 20,
+        'Z': 21,
+        'X': 22,
+        '?': 23,
+        '-': 24
+    }
+
+    new_col = []
+    for c in col:
+        tmp = characters.get(c, None)
+        if tmp is None:
+            raise ValueError(f'Value {c} does not exist in characters dictionary')
+
+        new_col.append(tmp)
+
+    return new_col
+
+
+def create_form_three(csv_name):
+    # Setting first column as index here allows for column wise apply later
+    msa_df = pd.read_csv(f'{data_dir}{csv_name}', index_col=0)
+    msa_df = msa_df[msa_df.index != 'consensus']
+    msa_df = msa_df[msa_df.index != 'reference']
+    msa_df = msa_df.apply(convert, axis=1, result_type='broadcast')
+    msa_df.to_csv(f'{data_dir}processed/form_3.csv')
