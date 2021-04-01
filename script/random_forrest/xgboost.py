@@ -9,12 +9,11 @@ Boosted Decision Trees (using xgboost).
 
 Link for more help with XGBoost library: https://xgboost.readthedocs.io/en/latest/python/python_intro.html
 
+Objective information can be found: https://xgboost.readthedocs.io/en/latest/parameter.html#learning-task-parameters
 """
 import xgboost as xgb
 
-class Forrest:
-    def __init__(self, input_form_one, input_form_two, input_form_three, labels):
-        self.data = []
-
-    def get_forrest(self):
-        return "hello"
+def create_and_train(train_data, labels, max_depth=5, eta=0.2):
+    nfolds = 5
+    objective = "multi:softmax"
+    num_classes =

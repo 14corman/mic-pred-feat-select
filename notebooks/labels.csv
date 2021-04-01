@@ -1,3 +1,3 @@
 Name,Antibiotic_1,Antibiotic_2,Antibiotic_3,Antibiotic_4,Antibiotic_5,Antibiotic_6,Antibiotic_7,Antibiotic_8,Antibiotic_9,Antibiotic_10,Antibiotic_11
-1,16.0,,0.06,0.25,1.0,,0.06,0.12,64.0,4.0,4.0
-2,16.0,,0.5,,8.0,32.0,4.0,0.25,,,16.0
+1,13,-1,5,7,9,-1,5,6,15,11,11
+2,13,-1,8,-1,12,14,11,7,-1,-1,13
