@@ -13,7 +13,6 @@ of scores using the following methods:
 - Duplications (no matter length) = -2
 """
 
-import numpy as np
 import pandas as pd
 from Bio.Align import substitution_matrices
 
