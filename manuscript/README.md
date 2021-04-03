@@ -59,4 +59,5 @@ D. Aytan-Aktug, P. T. L. C. Clausen, V. Bortolaia, F. M. Aarestrup, and O. Lund.
 # Reflection
 One thing I need to note is collecting the data has taken longer than I initial thought it would take. A small sample of test data was collected, but I hope to get a large test sample to allow for a more diverse testing strategy so replication becomes easier.
 
-I will have the 
+## Reflection update
+I hope to have the data either 4/3 or 4/4. I have the data preprocessing code done. I just need to finish and test XGBoost once I have the data.
