@@ -136,3 +136,8 @@ data/processed
 .vscode/
 
 data_flow*
+
+# Only accept the readme and jupyter notebooks in notebooks folder
+notebooks/*.csv
+notebooks/*.model
+notebooks/*.txt
