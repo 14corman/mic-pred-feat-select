@@ -2,9 +2,40 @@
 All data will be held here. There will be 3 places data will be held:
 1. main folder (hidden): this is where the actual data will be held when running the code, but cannot be put on Github
 2. test folder: A set of files for seeing how real data will be provided, and to build and test code with. Anyone wanting to replicate the findings will be able to use this test folder to test.
-3. processed folder (may not be made): The processed folder will be the place where processed data is stored. It may not be created initially as it will be made programatically.
+3. processed folder (may not be made/hidden): The processed folder will be the place where processed data is stored. It may not be created initially as it will be made programatically.
 
-# Test folder
+## Main folder
+Since the `main` folder is not included in this repo, I will say a bit about what you should expect to find in there. A `main` folder is required in this directory, and that is where all original data will be stored. The program will look at this folder to collect data to be processed. There should be the following files in that folder:
+1. antibiotics_OMPK35.tsv
+2. antibiotics_OMPK36.tsv
+3. antibiotics_OMPK37.tsv
+4. export_msa_75_OMPK35.csv
+5. export_msa_75_OMPK36.csv
+6. export_msa_75_OMPK37.csv
+
+For the `antibiotics_OMPK#.tsv` files, they should have the same structure as the `antibiotics.tsv` file in the `test` folder. Each file holds the MIC values for the different isolates that were run through the Amino Acid Annotation pipeline.
+
+The `export_msa_#_OMPK#.csv` files have the same structure as the `export_msa_#.csv` files do in the `test` folder. The number represents the run number ID for the pipeline. The 3 OMPK genes are what references were used against the isolates.
+
+If you would like to run this for yourself, you will need to either generate the files for the 3 OMPK genes, or you will need to go in to the `script/preprocessing` module and change the names of the files to what you wish to input.
+
+
+## Processed folder
+Since the `processed` folder is not included in this repo, and is made programatically, I will say a bit about what you should expect to find in there. The files you should find in this folder are:
+
+1. form_3_ompk35.csv
+2. form_3_ompk36.csv
+3. form_3_ompk37.csv
+4. labels.csv
+5. mic_set.csv
+
+For 1-3, these files should be processed to be as described in the paper. Form 3 is an old name given to the type of preprocessing while working in on this study before just using that form and removing forms 1 and 2. 
+
+The `labels.csv` file should be a list of MIC indecies where each row is an isolate and each column is an antibiotic. `0=-1=NA` That means every `0` found in the `labels.csv` file correspond to a `-1` in the `mic_set.csv` file which finally corresponds with a NaN value in the original data. That then means that the given isolate did not have a MIC value for the given antibiotic.
+
+Finally, `mic_set.csv` is a set of MIC values found for all isolate/antibiotic combinations. It will be used to decode the MICs that get returned from the ML algorithms.
+
+## Test folder
 The test folder has generated data that is similar to what the real data looks like. It can be used to compare what a user sees to what the paper has. Test output will be given throughout Repo to make sure other people can reproduce the work here.
 
 # File naming scheme and information
@@ -28,6 +59,4 @@ There are extra characters that can show up in this file. There are the usual 20
 
 # Preprocessing Deprecation
 In the test folder, there is another file `export_<integer>.csv`. This used to be used for creating form 1 during preprocessing. It is left there since the preprocessing Jupyter Notebook still references it. If you would like more detail on why preprocessing forms 1 and 2 are deprecated, please see Notebook `notebooks/data_processing.ipynb` for more information.
-
-
 

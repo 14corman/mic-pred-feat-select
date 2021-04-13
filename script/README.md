@@ -8,7 +8,7 @@ subpackages that can be used. So, for example, if I wanted to use a file under `
 I could have something like
 
 ```python
-import random_forrest as rf 
+import forests as rf 
 ```
 
 That would then allow me to call `rf.(something from random_forest directory)`. You can think of these files 

@@ -5,3 +5,5 @@ Created on Mar 24 6:55 PM 2021
 @author: Cory Kromer-Edwards
 
 """
+
+from .plot_graphs import *

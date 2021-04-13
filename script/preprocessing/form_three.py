@@ -39,7 +39,8 @@ def convert(col):
         'Z': 21,
         'X': 22,
         '?': 23,
-        '-': 24
+        '-': 24,
+        'O': 25
     }
 
     new_col = []
@@ -53,10 +54,12 @@ def convert(col):
     return new_col
 
 
-def create_form_three(csv_name, properties):
-    # Setting first column as index here allows for column wise apply later
-    msa_df = pd.read_csv(f'{properties.data_dir}{csv_name}', index_col=0)
-    msa_df = msa_df[msa_df.index != 'consensus']
-    msa_df = msa_df[msa_df.index != 'reference']
-    msa_df = msa_df.apply(convert, axis=1, result_type='broadcast')
-    msa_df.to_csv(f'{properties.data_dir}processed/form_3.csv')
+def create_form_three(properties):
+    for file_name, gene in zip(['export_msa_75_OMPK35.csv', 'export_msa_75_OMPK36.csv', 'export_msa_75_OMPK37.csv'],
+                               ['ompk35', 'ompk36', 'ompk37']):
+        # Setting first column as index here allows for column wise apply later
+        msa_df = pd.read_csv(f'{properties.data_dir}{properties.main_data}{file_name}', index_col=0)
+        msa_df = msa_df[msa_df.index != 'consensus']
+        msa_df = msa_df[msa_df.index != 'reference']
+        msa_df = msa_df.apply(convert, axis=1, result_type='broadcast')
+        msa_df.to_csv(f'{properties.data_dir}{properties.processed_data}form_3_{gene}.csv')
