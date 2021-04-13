@@ -69,13 +69,36 @@ if __name__ == '__main__':
 
     x_train, x_test, y_train, y_test = train_test_split(form_3, labels, test_size=0.2, random_state=642)
 
+    fpr_all = dict()
+    tpr_all = dict()
+    roc_auc_all = dict()
+    f1 = pd.DataFrame([], columns=['antibiotic', 'f1 score', 'algorithm'])
+    all_f1_micro = pd.DataFrame([], columns=['antibiotic', 'f1 score', 'mic', 'algorithm'])
     for col in labels.columns:
+        print(f'Working on {col}:')
+        print('\tTraining XGBoost model')
         xgb = forests.GradientForest(properties, col, len(mic_set["MICs"]))
         xgb.train(x_train, y_train[col])
-        fpr, tpr, roc_auc = xgb.test(x_test, y_test[col])
+        print('\tTesting XGBoost model')
+        fpr, tpr, roc_auc, f1_scores, f1_micro = xgb.test(x_test, y_test[col])
+        print('\tSaving feature importance values')
         xgb.save_feature_importance()
         feature_imp = xgb.get_feature_importance()
 
-        analysis.plot_average_roc(fpr, tpr, roc_auc, properties, f'{col}_micro_average_roc')
-        analysis.plot_all_roc(fpr, tpr, roc_auc, properties, f'{col}_all_roc')
+        print('\tPlotting analysis graphs')
+        analysis.plot_single_average_roc(fpr, tpr, roc_auc, properties, f'{col}_micro_average_roc')
+        analysis.plot_all_roc(fpr, tpr, roc_auc, properties, f'{col}_all_roc', mic_set['MICs'].values)
         analysis.plot_feat_imp_bar_graph(feature_imp, properties, f'{col}_feat_importance')
+
+        fpr_all[col] = fpr['micro']
+        tpr_all[col] = tpr['micro']
+        roc_auc_all[col] = roc_auc['micro']
+        all_f1_micro = all_f1_micro.append({'antibiotic': col, 'f1 score': f1_micro, 'algorithm': 'Xgboost'}, ignore_index=True)
+        for mic, score in enumerate(f1_scores):
+            f1 = f1.append({'antibiotic': col, 'f1 score': score, 'mic': mic, 'algorithm': 'Xgboost'}, ignore_index=True)
+
+    analysis.plot_all_average_roc(fpr_all, tpr_all, roc_auc_all, properties, 'all_micro_average_roc')
+    analysis.plot_f1_scores(f1, properties, "f1_scores_by_mic")
+    f1.to_csv(f'{properties.output_dir}f1_test_scores.csv', index=False)
+    analysis.plot_f1_micro_scores(all_f1_micro, properties, "f1_micro_scores")
+    all_f1_micro.to_csv(f'{properties.output_dir}f1_test_micro_scores.csv', index=False)

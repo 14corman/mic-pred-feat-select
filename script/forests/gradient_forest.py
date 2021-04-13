@@ -14,7 +14,8 @@ Objective information can be found: https://xgboost.readthedocs.io/en/latest/par
 import xgboost as xgb
 import pandas as pd
 from sklearn.preprocessing import label_binarize
-from sklearn.metrics import roc_curve, auc
+from sklearn.metrics import roc_curve, auc, f1_score
+import numpy as np
 import os
 
 import warnings
@@ -36,7 +37,13 @@ class GradientForest:
         self.num_folds = 5
         self.early_stopping_rounds = early_stopping_rounds
         self.antibiotic_name = antibiotic_name
-        self.params = {'max_depth': max_depth, 'eta': eta, 'objective': "multi:softprob", 'num_class': num_classes}
+
+        # A warning is given talking about evaluation metric changing for 'multi:softprob' objective
+        # Exact:  Starting in XGBoost 1.3.0, the default evaluation metric used with the objective
+        #         'multi:softprob' was changed from 'merror' to 'mlogloss'. Explicitly set eval_metric
+        #         if you'd like to restore the old behavior.
+        # To remove it, we set 'verbosity': 0
+        self.params = {'max_depth': max_depth, 'eta': eta, 'objective': "multi:softprob", 'num_class': num_classes, 'verbosity': 0}
         self.properties = properties
         self.model = None
         self.feat_importance = None
@@ -78,6 +85,7 @@ class GradientForest:
 
                 # this will suppress all warnings in this block
                 warnings.simplefilter("ignore")
+
                 # Compute ROC curve and ROC area for each class
                 fpr = dict()
                 tpr = dict()
@@ -90,7 +98,14 @@ class GradientForest:
                 fpr["micro"], tpr["micro"], _ = roc_curve(binary_labels.ravel(), predictions.ravel())
                 roc_auc["micro"] = auc(fpr["micro"], tpr["micro"])
 
-            return fpr, tpr, roc_auc
+                y_pred = np.argmax(predictions, axis=1)
+                y_true = test_labels.values
+                class_list = range(self.num_classes)
+                f1 = dict()
+                f1_scores = f1_score(y_true, y_pred, average=None, labels=class_list)
+                f1_micro = f1_score(y_true, y_pred, average='micro')
+
+            return fpr, tpr, roc_auc, f1_scores, f1_micro
         else:
             raise AttributeError("Model not made yet. Run train function before test function.")
 
