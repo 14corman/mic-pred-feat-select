@@ -6,4 +6,5 @@ Created on Mar 24 6:55 PM 2021
 
 """
 
-from .gradient_forest import *
+from .gradient_forest import check_and_create_xgb_folders, GradientForest
+from .random_forest import check_and_create_rf_folders, RandomForest
