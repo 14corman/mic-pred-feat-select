@@ -26,14 +26,29 @@ def check_and_create_xgb_folders(properties):
     if not os.path.exists(f'{properties.output_dir}/xgboost/'):
         os.mkdir(f'{properties.output_dir}/xgboost/')
 
+    if not os.path.exists(f'{properties.analysis_dir}/xgboost/'):
+        os.mkdir(f'{properties.analysis_dir}/xgboost/')
+
     if not os.path.exists(f'{properties.output_dir}/xgboost/trees/'):
         os.mkdir(f'{properties.output_dir}/xgboost/trees/')
 
 
 # noinspection PyAttributeOutsideInit
+def _f1_eval(y_pred, dtrain):
+    """Custom f1 score function for XGBoost"""
+    y_true = dtrain.get_label()
+    err = f1_score(y_true, np.argmax(y_pred, axis=1), average='weighted')
+    return 'f1', err
+
+
+def _scale_labels(x, classes=[]):
+    """Scaling down labels to be [0, num_classes)"""
+    return np.where(classes == x)[0][0]
+
+
 class GradientForest:
-    def __init__(self, properties, antibiotic_name, num_classes, max_depth=5, eta=0.2, early_stopping_rounds=10):
-        self.num_classes = num_classes
+    def __init__(self, properties, antibiotic_name, classes, max_depth=5, eta=0.2, early_stopping_rounds=10):
+        self.num_classes = len(classes)
         self.num_folds = 5
         self.early_stopping_rounds = early_stopping_rounds
         self.antibiotic_name = antibiotic_name
@@ -43,40 +58,45 @@ class GradientForest:
         #         'multi:softprob' was changed from 'merror' to 'mlogloss'. Explicitly set eval_metric
         #         if you'd like to restore the old behavior.
         # To remove it, we set 'verbosity': 0
-        self.params = {'max_depth': max_depth, 'eta': eta, 'objective': "multi:softprob", 'num_class': num_classes, 'verbosity': 0}
+        self.params = {'max_depth': max_depth, 'eta': eta, 'objective': "multi:softprob", 'num_class': self.num_classes, 'verbosity': 0}
         self.properties = properties
         self.model = None
         self.feat_importance = None
+        self.classes = classes
 
     def train(self, train_data, train_labels):
         """Create, Train, and export an XGBoost model along with its CV results. Return the model."""
 
-        train_dmatrix = xgb.DMatrix(train_data, label=train_labels)
+        labels = train_labels.apply(_scale_labels, classes=self.classes)
+        train_dmatrix = xgb.DMatrix(train_data, label=labels)
 
         cv_results = xgb.cv(
             params=self.params,
             dtrain=train_dmatrix,
             nfold=self.num_folds,
             early_stopping_rounds=self.early_stopping_rounds,
-            metrics='mlogloss'
+            metrics='mlogloss',
+            feval=_f1_eval
         )
 
         model = xgb.train(params=self.params, dtrain=train_dmatrix, num_boost_round=len(cv_results))
 
+        # Test and save the model
         cv_results.to_csv(f'{self.properties.output_dir}/cv_results/xgboost_{self.antibiotic_name}.csv')
         model.save_model(f'{self.properties.output_dir}models/xgboost_{self.antibiotic_name}.model')
         model.dump_model(f'{self.properties.output_dir}xgboost/trees/{self.antibiotic_name}.txt')
 
         self.model = model
         self.feat_importance = pd.DataFrame(list(model.get_fscore().items()),
-                                            columns=['feature', 'importance']).sort_values('importance',
+                                            columns=['Gene', 'Importance']).sort_values('Importance',
                                                                                            ascending=False)
 
     def test(self, test_data, test_labels):
         if self.model is not None:
-            test_dmatrix = xgb.DMatrix(test_data, label=test_labels)
+            labels = test_labels.apply(_scale_labels, classes=self.classes)
+            test_dmatrix = xgb.DMatrix(test_data, label=labels)
             predictions = self.model.predict(test_dmatrix)
-            binary_labels = label_binarize(test_labels, classes=[i for i in range(self.num_classes)])
+            binary_labels = label_binarize(labels, classes=[i for i in range(len(self.classes))])
 
             with warnings.catch_warnings():
                 # This gets thrown when calculating ROC values if there are 0 True Positives for an MIC (which can happen)
@@ -90,9 +110,11 @@ class GradientForest:
                 fpr = dict()
                 tpr = dict()
                 roc_auc = dict()
-                for i in range(self.num_classes):
-                    fpr[i], tpr[i], _ = roc_curve(binary_labels[:, i], predictions[:, i])
-                    roc_auc[i] = auc(fpr[i], tpr[i])
+
+                # Store the FPR, TPR, and AUROC for each MIC index (class)
+                for i in range(len(self.classes)):
+                    fpr[self.classes[i]], tpr[self.classes[i]], _ = roc_curve(binary_labels[:, i], predictions[:, i])
+                    roc_auc[self.classes[i]] = auc(fpr[self.classes[i]], tpr[self.classes[i]])
 
                 # Compute micro-average ROC curve and ROC area
                 fpr["micro"], tpr["micro"], _ = roc_curve(binary_labels.ravel(), predictions.ravel())
@@ -100,9 +122,7 @@ class GradientForest:
 
                 y_pred = np.argmax(predictions, axis=1)
                 y_true = test_labels.values
-                class_list = range(self.num_classes)
-                f1 = dict()
-                f1_scores = f1_score(y_true, y_pred, average=None, labels=class_list)
+                f1_scores = f1_score(y_true, y_pred, average=None, labels=self.classes)
                 f1_micro = f1_score(y_true, y_pred, average='micro')
 
             return fpr, tpr, roc_auc, f1_scores, f1_micro
