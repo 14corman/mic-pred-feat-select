@@ -141,3 +141,4 @@ data_flow*
 notebooks/*.csv
 notebooks/*.model
 notebooks/*.txt
+notebooks/*.joblib
