@@ -12,16 +12,26 @@ These mutations will be collected from a pipeline that I built with JMI Laborato
 ## Processing
 The preprocessed data will have each AA be converted to an index for that species AA. For example, if we had a species that only has AAs A, B, and C, then their conversions would look like [A: 0, B: 1, C: 2]. That would mean an AA sequence "ACBCCA" would be converted into "021220"
 
-### Deprecated preprocessing forms of data
-There used to be three forms of data that would be the output of the preprocessing. However, after further inspection, and some coding, it was both too difficult to manipulate forms 1 and 2 into working well with Machine Learning algorithms and forms 1 and 2 together made form 3 already. That is why forms 1 and 2 were removed while form 3 (described above)
-
 # Algorithms
-The three algorithms that will be tested are [Neural Networks (NN)](https://towardsdatascience.com/understanding-neural-networks-19020b758230), [Random Forests (RF)](https://towardsdatascience.com/understanding-random-forest-58381e0602d2), and [Gradient Boosted Forests (GBF)](https://towardsdatascience.com/basic-ensemble-learning-random-forest-adaboost-gradient-boosting-step-by-step-explained-95d49d1e2725). The authors in D. Aytan-Aktug, et. al. found that a one-hidden-layer NN worked best when they did their study, and that the NN was prone to overfitting due to its complexity. Because of this, I will also start out with one-hidden-layer. If underfitting is found, I will add another one or two layers. Otherwise, the one-hidden-layer model will be taken as best performant NN model. 
+The three algorithms that will be tested are [Neural Networks (NN)](https://towardsdatascience.com/understanding-neural-networks-19020b758230), [Random Forests (RF)](https://towardsdatascience.com/understanding-random-forest-58381e0602d2), and [Gradient Boosted Forests (GBF)](https://towardsdatascience.com/basic-ensemble-learning-random-forest-adaboost-gradient-boosting-step-by-step-explained-95d49d1e2725). For GBF, I will be using an algorithm called XGBoost.
+
+
+## Neural Networks
+The authors in D. Aytan-Aktug, et. al. found that a one-hidden-layer NN worked best when they did their study, and that the NN was prone to overfitting due to its complexity. However, other studies [9, 10] have shown other ways to generate NN models. In [9], a mix of multiple dense and drop-out layers were used while in [10] a Convolutional NN (CNN) was used. A CNN would not be advised here, as the authors in [9] made theirs due to having too many layers to start out. The authors in [9] only had four layers for each of the four nucleotides while here there are 25 different options that a position could be in a sequence (21 Amino Acids and four other characters). Because of the authors in  D. Aytan-Aktug, et. al mentioning overfitting at one hidden layer, I will start with how they set up their model. If that performs poorly, then I will move to the the model spoken about in [9].
 
 # Training and Testing
 When you train a Machine Learning algorithm, you obtain a model. A single algorithm can generate many different models depending on its input data, output prediction, the labels used to train, and parameters that make up the algorithm. The reasoning behind the inclusion labels can be thought of as follows, if you trained an algorithm to perform addition, for example, then gave it multiplication problems, it would fail. Even though both would have the same input and output, simple integers, the process to go from input to output has changed. That is why labels matter. Labels are used in training an algorithm. It tells the algorithm what is right after it tries to predict during training. The labels for addition may be 5 (for 3+2) and 6 (for 3+3). The labels for multiplication may be 6 (for 3\*2) and 9 (for 3\*3). The two different sets of labels would create two different models. One trained to predict addition and the other trained to predict multiplication. The same logic can be applied here. For the three algorithms mentioned previously, they will all be predicting MIC values. The labels, MICs, are different depending on antibiotic, so there will be a model trained for each antibiotic. If there would be three antibiotics, then there would be nine models total since we have three algorithms and three antibiotics.
 
 In terms of splitting the dataset, 80% of the data will be made into the training dataset with the other 20% becoming the test dataset. When training a model, 5-fold Cross Validation will be performed. That means, out of the whole training dataset, 1/5 will be used to validate the model while the other 4/5 will be used to train the model.
+
+# Hyperparameter Tuning
+To give an algorithm the best chance at training a good model, you must give it proper hyperparameters. These hyperparameters are inputs given to the algorithms to guide the algorithm as it generates the model while training. Tuning these parameters can be done through a means called GridSearch [5] where you can think of the possible values for each hyperparameter coming together to form a grid and each point on the grid is a different model generated. In GridSearch, each model is generated in the grid and tested to give some performance value. Then, depending on the performance metric, you would maximize or minimize the models to get the best performaning one. This model would then have the proper hyperparameters you would want to use to train with. This can be seen as a brute force optimization method, and as the number of hyperparameters grow, and number of possible values per hyperparameter grow, the number of models needing to be trained increases exponentially. This is where $2^k$ factorial design [4] comes in. This approach makes it so that you only use two values per hyperparameter, a low value and a high value. The set up is the same as GridSearch, and we can still use the GridSearch functions, but instead of finding the exact, best hyperparameters, we only need to get a general idea on whether larger values or smaller values work best per parameter. From there, you can choose around the best value to use. For GBF and RF, this approach was used to tune multiple hyperparameters each. A 10-fold Cross Validation was used with GridSearch to test each model, and the performance metric used was the average F1 score (F1-micro score). GridSearch was also performed, as described above, for each antibiotic used. This would lead to a more generalized view for each hyperpameter as it looks at different labels (MICSs) from the different antibiotics. The results for these can be found in the `output\grid_search` folder as both plots and CSV output.
+
+## XGBoost tuning
+There were four parameters that were tuned with XGBoost; subsample (), max_depth (), learning_rate (), and colsample_bytree (). It was determined that only max_depth plays a role here as it was the only hyperparameter to make a difference between training with a low or high value. All other hyperparameters had similar results when comparing their low and high outputs. The max_depth hyperpameter had gave better performance with the smallest value rather than the default. This would mean that it is easy to overfit the data as having a smaller value forces the trees in the forest to only pick a tiny amount of genes to use before stopping.
+
+## RF tuning
+There were three hyperparameters that were tuned for RF; max_depth (), min_samples_leaf (), min_samples_split (). Again, max_depth was the only hyperparameter whose value made a difference in the overall outcomce of the model. However, in this case it seems that the max_depth variable varied on whether a small value or large value worked best across the antibiotics. For three antibiotics, a larger max_depth was better, for one a small max_depth was better, and, for the last antibiotic, both large and small performed about the same. Because, in general, a larger max_depth worked best, that is what was chosen.
 
 # Figures
 The figures will be generated by predicting the test dataset.
@@ -41,14 +51,29 @@ The other figure I will try to reproduce:
 Figure 2 is a symmetric jitter dot plot showing F1 scores for each Machine Learning algorithm over every antibiotic. [F1 scores](https://towardsdatascience.com/accuracy-precision-recall-or-f1-331fb37c5cb9) are another way to tell how well an algorithm can predict. Each point on the graph is an F1 score for a particular antibiotic/algorithm/MIC combination.
 
 # Referenecs
-M. Bassetti, G. Poulakou, E. Rupp´e, E. Bouza, S. J. V. Hal, and A. Brink,
+1. M. Bassetti, G. Poulakou, E. Rupp´e, E. Bouza, S. J. V. Hal, and A. Brink,
 “Antimicrobial resistance in the next 30 years, humankind, bugs and
 drugs: a visionary approach.” Intensive Care Medicine, vol. 43, no. 10,
 pp. 1464–1475, 2017.
 
-Breijyeh, Z., Jubeh, B., & Karaman, R. (2020). Resistance of Gram-Negative Bacteria to Current Antibacterial Agents and Approaches to Resolve It. Molecules (Basel, Switzerland), 25(6), 1340. https://doi.org/10.3390/molecules25061340
+2. Breijyeh, Z., Jubeh, B., & Karaman, R. (2020). Resistance of Gram-Negative Bacteria to Current Antibacterial Agents and Approaches to Resolve It. Molecules (Basel, Switzerland), 25(6), 1340. https://doi.org/10.3390/molecules25061340
 
-D. Aytan-Aktug, P. T. L. C. Clausen, V. Bortolaia, F. M. Aarestrup, and O. Lund. "Prediction of Acquired Antimicrobial Resistance for Multiple Bacterial Species Using Neural Networks". American Society for Microbiology Journals, January 5, 2020, e00774-19. [https://doi.org/10.1128/MSYSTEMS.00774-19](https://doi.org/10.1128/MSYSTEMS.00774-19).
+3. D. Aytan-Aktug, P. T. L. C. Clausen, V. Bortolaia, F. M. Aarestrup, and O. Lund. "Prediction of Acquired Antimicrobial Resistance for Multiple Bacterial Species Using Neural Networks". American Society for Microbiology Journals, January 5, 2020, e00774-19. [https://doi.org/10.1128/MSYSTEMS.00774-19](https://doi.org/10.1128/MSYSTEMS.00774-19).
+
+4. Winer, B. J., Brown, D. R. & Michels, K. M. Statistical principles in experimental design, vol. 2 (McGraw-Hill New York, 1971).
+
+5. Lerman, P. M. Fitting Segmented Regression Models by Grid Search. Journal of the Royal Statistical Society. Series C (Applied
+Statistics) 29, 77–84 (1980).
+
+6. Neural Network (used in paper)
+
+7. Random Forest
+
+8. XGBoost
+
+9. DeepArg
+
+10. Predicting effects of noncoding variants with deep learning–based sequence model
 
 
 ## Data
