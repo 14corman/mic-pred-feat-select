@@ -1,31 +1,31 @@
 Antibiotic,F1 Score,Algorithm,mic
-Antibiotic_1,0.06666666666666667,Xgboost,0.0
-Antibiotic_1,0.2976744186046512,Xgboost,1.0
+Antibiotic_1,0.05095541401273885,Xgboost,0.0
+Antibiotic_1,0.0,Xgboost,1.0
 Antibiotic_1,0.0,Xgboost,2.0
 Antibiotic_1,0.0,Xgboost,3.0
 Antibiotic_1,0.0,Xgboost,4.0
 Antibiotic_1,0.0,Xgboost,5.0
 Antibiotic_1,0.0,Xgboost,6.0
-Antibiotic_1,0.0,Xgboost,7.0
-Antibiotic_1,0.09375,Random Forest,0.0
-Antibiotic_1,0.25157232704402516,Random Forest,1.0
+Antibiotic_1,0.10975609756097561,Random Forest,0.0
+Antibiotic_1,0.0,Random Forest,1.0
 Antibiotic_1,0.0,Random Forest,2.0
 Antibiotic_1,0.0,Random Forest,3.0
 Antibiotic_1,0.0,Random Forest,4.0
 Antibiotic_1,0.0,Random Forest,5.0
 Antibiotic_1,0.0,Random Forest,6.0
-Antibiotic_1,0.0,Random Forest,7.0
-Antibiotic_2,0.07692307692307691,Xgboost,0.0
+Antibiotic_2,0.0,Xgboost,0.0
 Antibiotic_2,0.0,Xgboost,1.0
-Antibiotic_2,0.15384615384615385,Xgboost,2.0
+Antibiotic_2,0.0,Xgboost,2.0
 Antibiotic_2,0.0,Xgboost,3.0
 Antibiotic_2,0.0,Xgboost,4.0
 Antibiotic_2,0.0,Xgboost,5.0
 Antibiotic_2,0.0,Xgboost,6.0
 Antibiotic_2,0.0,Xgboost,7.0
-Antibiotic_2,0.0,Xgboost,8.0
+Antibiotic_2,0.08333333333333333,Xgboost,8.0
 Antibiotic_2,0.0,Xgboost,9.0
-Antibiotic_2,0.16666666666666663,Random Forest,0.0
+Antibiotic_2,0.0,Xgboost,10.0
+Antibiotic_2,0.0,Xgboost,11.0
+Antibiotic_2,0.0,Random Forest,0.0
 Antibiotic_2,0.0,Random Forest,1.0
 Antibiotic_2,0.0,Random Forest,2.0
 Antibiotic_2,0.0,Random Forest,3.0
@@ -33,17 +33,20 @@ Antibiotic_2,0.0,Random Forest,4.0
 Antibiotic_2,0.0,Random Forest,5.0
 Antibiotic_2,0.0,Random Forest,6.0
 Antibiotic_2,0.0,Random Forest,7.0
-Antibiotic_2,0.0,Random Forest,8.0
+Antibiotic_2,0.0784313725490196,Random Forest,8.0
+Antibiotic_2,0.0,Random Forest,9.0
+Antibiotic_2,0.0,Random Forest,10.0
+Antibiotic_2,0.0,Random Forest,11.0
 Antibiotic_3,0.0,Xgboost,0.0
 Antibiotic_3,0.0,Xgboost,1.0
-Antibiotic_3,0.16666666666666666,Xgboost,2.0
+Antibiotic_3,0.0,Xgboost,2.0
 Antibiotic_3,0.0,Xgboost,3.0
 Antibiotic_3,0.0,Xgboost,4.0
 Antibiotic_3,0.0,Xgboost,5.0
 Antibiotic_3,0.0,Xgboost,6.0
 Antibiotic_3,0.0,Xgboost,7.0
 Antibiotic_3,0.0,Xgboost,8.0
-Antibiotic_3,0.07142857142857142,Random Forest,0.0
+Antibiotic_3,0.0,Random Forest,0.0
 Antibiotic_3,0.0,Random Forest,1.0
 Antibiotic_3,0.0,Random Forest,2.0
 Antibiotic_3,0.0,Random Forest,3.0
@@ -51,42 +54,28 @@ Antibiotic_3,0.0,Random Forest,4.0
 Antibiotic_3,0.0,Random Forest,5.0
 Antibiotic_3,0.0,Random Forest,6.0
 Antibiotic_3,0.0,Random Forest,7.0
-Antibiotic_4,0.7002652519893899,Xgboost,0.0
+Antibiotic_4,0.05095541401273885,Xgboost,0.0
 Antibiotic_4,0.0,Xgboost,1.0
 Antibiotic_4,0.0,Xgboost,2.0
 Antibiotic_4,0.0,Xgboost,3.0
 Antibiotic_4,0.0,Xgboost,4.0
 Antibiotic_4,0.0,Xgboost,5.0
 Antibiotic_4,0.0,Xgboost,6.0
-Antibiotic_4,0.0,Xgboost,7.0
-Antibiotic_4,0.0,Xgboost,8.0
-Antibiotic_4,0.722689075630252,Random Forest,0.0
+Antibiotic_4,0.10975609756097561,Random Forest,0.0
 Antibiotic_4,0.0,Random Forest,1.0
 Antibiotic_4,0.0,Random Forest,2.0
 Antibiotic_4,0.0,Random Forest,3.0
 Antibiotic_4,0.0,Random Forest,4.0
 Antibiotic_4,0.0,Random Forest,5.0
 Antibiotic_4,0.0,Random Forest,6.0
-Antibiotic_4,0.0,Random Forest,7.0
-Antibiotic_5,0.0,Xgboost,0.0
+Antibiotic_5,0.8221153846153847,Xgboost,0.0
 Antibiotic_5,0.0,Xgboost,1.0
 Antibiotic_5,0.0,Xgboost,2.0
 Antibiotic_5,0.0,Xgboost,3.0
 Antibiotic_5,0.0,Xgboost,4.0
-Antibiotic_5,0.09691629955947136,Xgboost,5.0
-Antibiotic_5,0.0,Xgboost,6.0
-Antibiotic_5,0.0,Xgboost,7.0
-Antibiotic_5,0.0,Xgboost,8.0
-Antibiotic_5,0.0,Xgboost,9.0
-Antibiotic_5,0.0,Xgboost,10.0
-Antibiotic_5,0.0,Random Forest,0.0
+Antibiotic_5,0.0,Xgboost,5.0
+Antibiotic_5,0.8221153846153847,Random Forest,0.0
 Antibiotic_5,0.0,Random Forest,1.0
 Antibiotic_5,0.0,Random Forest,2.0
 Antibiotic_5,0.0,Random Forest,3.0
 Antibiotic_5,0.0,Random Forest,4.0
-Antibiotic_5,0.08205128205128207,Random Forest,5.0
-Antibiotic_5,0.0,Random Forest,6.0
-Antibiotic_5,0.0,Random Forest,7.0
-Antibiotic_5,0.0,Random Forest,8.0
-Antibiotic_5,0.0,Random Forest,9.0
-Antibiotic_5,0.0,Random Forest,10.0

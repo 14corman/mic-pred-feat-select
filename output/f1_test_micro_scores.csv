@@ -1,11 +1,11 @@
 Antibiotic,F1 Score,mic,Algorithm
-Antibiotic_1,0.1346938775510204,,Xgboost
-Antibiotic_1,0.09387755102040816,,Random Forest
+Antibiotic_1,0.0163265306122449,,Xgboost
+Antibiotic_1,0.036734693877551024,,Random Forest
 Antibiotic_2,0.00816326530612245,,Xgboost
-Antibiotic_2,0.012244897959183671,,Random Forest
-Antibiotic_3,0.004081632653061225,,Xgboost
-Antibiotic_3,0.004081632653061225,,Random Forest
-Antibiotic_4,0.5387755102040817,,Xgboost
-Antibiotic_4,0.5265306122448979,,Random Forest
-Antibiotic_5,0.04489795918367346,,Xgboost
-Antibiotic_5,0.0326530612244898,,Random Forest
+Antibiotic_2,0.00816326530612245,,Random Forest
+Antibiotic_3,0.0,,Xgboost
+Antibiotic_3,0.0,,Random Forest
+Antibiotic_4,0.0163265306122449,,Xgboost
+Antibiotic_4,0.036734693877551024,,Random Forest
+Antibiotic_5,0.6979591836734694,,Xgboost
+Antibiotic_5,0.6979591836734694,,Random Forest
