@@ -12,6 +12,7 @@ from sklearn.preprocessing import label_binarize
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import roc_curve, auc, f1_score
+from sklearn.model_selection import GridSearchCV
 import joblib
 import numpy as np
 import os
@@ -46,7 +47,7 @@ class RandomForest:
         classes.sort()
         self.classes = classes
 
-        model = RandomForestClassifier(max_depth=40, min_samples_leaf=1, min_samples_split=40)
+        model = RandomForestClassifier(min_samples_leaf=10)
         with warnings.catch_warnings():
             # This gets thrown when running Cross Validation.
             # Exact warning: The least populated class in y has only 1 members, which is less than n_splits=5.
@@ -67,6 +68,23 @@ class RandomForest:
 
         self.feat_importance = pd.DataFrame(items,
                                   columns=['Gene', 'Importance']).sort_values('Importance', ascending=False)
+
+    def grid_search(self, train_data, train_labels):
+        """
+        Peform Grid Search for Random Forest.
+        """
+
+        model = RandomForestClassifier()
+        parameters = {'max_depth': [1, 15, None],
+                      'min_samples_leaf': [1, 10],
+                      'min_samples_split': [2, 15],
+                      'random_state': [1337]}
+
+        clf = GridSearchCV(model, parameters, n_jobs=3, cv=10, scoring='f1_micro', verbose=0)
+        clf.fit(train_data, train_labels)
+        results = pd.DataFrame(clf.cv_results_).fillna(-1)  # For None max_depth
+        results.to_csv(f'{self.properties.output_dir}grid_search/rf_run1_{self.antibiotic_name}.csv')
+        return results
 
     def test(self, test_data, test_labels):
         if self.model is not None:

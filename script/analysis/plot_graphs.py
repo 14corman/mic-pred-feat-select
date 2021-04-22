@@ -109,6 +109,15 @@ def plot_feat_imp_bar_graph(feat_importance, properties, file_name):
     _free_plot_memory()
 
 
+def plot_gs_results(results, properties):
+    """Plot Grid Search results"""
+    for var in ['min_samples_leaf', 'min_samples_split', 'max_depth']:
+        sns.stripplot(x='Antibiotic', y='F1-micro Score', data=results, jitter=True, hue=var)
+        sns.despine()  # Remove the top and right graph lines
+        plt.savefig(f'{properties.output_dir}grid_search/rf_{var}_plot.jpeg', bbox_inches='tight')
+        _free_plot_memory()
+
+
 def plot_f1_scores(f1, properties, file_name):
     ax = sns.violinplot(x="Antibiotic", y="F1 Score", data=f1, inner='point', hue='Algorithm', cut=0, scale="count",
                    palette="muted")

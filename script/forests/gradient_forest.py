@@ -15,6 +15,7 @@ import xgboost as xgb
 import pandas as pd
 from sklearn.preprocessing import label_binarize
 from sklearn.metrics import roc_curve, auc, f1_score
+from sklearn.model_selection import GridSearchCV
 import numpy as np
 import os
 
@@ -43,26 +44,26 @@ def _f1_eval(y_pred, dtrain):
 
 def _scale_labels(x, classes=[]):
     """Scaling down labels to be [0, num_classes)"""
-    return np.where(classes == x)[0][0]
+    return classes.index(x)  # np.where(classes == x)[0][0]
 
 
 class GradientForest:
-    def __init__(self, properties, antibiotic_name, classes, max_depth=5, eta=0.2, early_stopping_rounds=10):
+    def __init__(self, properties, antibiotic_name, classes, max_depth=1, early_stopping_rounds=10):
         self.num_classes = len(classes)
         self.num_folds = 5
         self.early_stopping_rounds = early_stopping_rounds
         self.antibiotic_name = antibiotic_name
 
-        # A warning is given talking about evaluation metric changing for 'multi:softprob' objective
-        # Exact:  Starting in XGBoost 1.3.0, the default evaluation metric used with the objective
-        #         'multi:softprob' was changed from 'merror' to 'mlogloss'. Explicitly set eval_metric
-        #         if you'd like to restore the old behavior.
+        # A warning is given talking about evaluation metric changing for 'multi:stric used with the objective
+        #         #         'multi:softprob' was changed from 'merror' to 'mlogloss'. Explicitly set eval_metric
+        #         #         if you'd like to restore the old behavior.oftprob' objective
+        # Exact:  Starting in XGBoost 1.3.0, the default evaluation me
         # To remove it, we set 'verbosity': 0
-        self.params = {'max_depth': max_depth, 'eta': eta, 'objective': "multi:softprob", 'num_class': self.num_classes, 'verbosity': 0}
+        self.params = {'max_depth': max_depth, 'objective': "multi:softprob", 'num_class': self.num_classes, 'verbosity': 0}
         self.properties = properties
         self.model = None
         self.feat_importance = None
-        self.classes = classes
+        self.classes = list(classes)
 
     def train(self, train_data, train_labels):
         """Create, Train, and export an XGBoost model along with its CV results. Return the model."""
@@ -90,6 +91,30 @@ class GradientForest:
         self.feat_importance = pd.DataFrame(list(model.get_fscore().items()),
                                             columns=['Gene', 'Importance']).sort_values('Importance',
                                                                                            ascending=False)
+
+    def grid_search(self, train_data, train_labels):
+        """
+        Peform Grid Search for XGBoost.
+
+        Sources: https://www.kaggle.com/phunter/xgboost-with-gridsearchcv
+                 https://www.kaggle.com/vinhnguyen/accelerating-xgboost-with-gpu
+        """
+        labels = train_labels.apply(_scale_labels, classes=self.classes)
+        gs_model = xgb.XGBClassifier(use_label_encoder=False)
+
+        parameters = {'tree_method': ['gpu_hist'],
+                      'predictor': ['gpu_predictor'],
+                      'objective': ["multi:softprob"],
+                      'learning_rate': [0.3, 0.1, 0.05],  # so called `eta` value
+                      'max_depth': [1, 6],
+                      'eval_metric': ['mlogloss'],
+                      'seed': [1337]}
+
+        clf = GridSearchCV(gs_model, parameters, n_jobs=3, cv=10, scoring='f1_micro', verbose=0)
+        clf.fit(train_data, labels)
+        results = pd.DataFrame(clf.cv_results_)
+        results.to_csv(f'{self.properties.output_dir}grid_search/xgboost_run2_{self.antibiotic_name}.csv')
+        return results
 
     def test(self, test_data, test_labels):
         if self.model is not None:
