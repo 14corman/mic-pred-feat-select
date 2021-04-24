@@ -10,9 +10,11 @@ Main file. Code execution starts here.
 import os
 import pandas as pd
 from sklearn.model_selection import train_test_split
+import numpy as np
 
 import preprocessing
 import forests
+import neural_network as nn
 import properties
 import analysis
 
@@ -48,6 +50,7 @@ def setup_dirs(prop):
     # Set up folder structure for algorithms
     forests.check_and_create_xgb_folders(prop)
     forests.check_and_create_rf_folders(prop)
+    nn.check_and_create_dense_folders(prop)
 
 
 def do_preprocess(prop):
@@ -81,6 +84,34 @@ def get_data(prop):
     return mic_set, x_train, x_test, y_train, y_test, labels
 
 
+def down_sample(train_x, train_y):
+    """
+    The MIC classes may be extremely skewed, so the algorithms will struggle to train.
+    We will shrink all classes down to the sample sample size (down sample) since we cannot
+    upsample as creating the new data (Amino Acid sequences for 3 genes) is not easy.
+    """
+    # First get the MIC with the minimum amount of data
+    mics = train_y.unique()
+    min_mic_count = 100000
+    for m in mics:
+        # print(f"{m}: {(labels_scaled.values == m).sum()}")
+        min_mic_count = min(min_mic_count, (train_y.values == m).sum())
+
+    # Since we are doing 5-fold CV, we need some classes to have more than 5 elements
+    if min_mic_count <= 5:
+        min_mic_count = 15
+
+    chosen_indicies = np.array([])
+    for m in mics:
+        chosen_indicies = np.append(chosen_indicies,
+                                    np.random.choice(train_y[train_y == m].index, min_mic_count,
+                                                     replace=False))
+
+    train_y = train_y[chosen_indicies]
+    train_x = train_x[train_x.index.isin(chosen_indicies)]
+    return train_x, train_y
+
+
 def do_algorithms(prop, mic_set, x_train, x_test, y_train, y_test, labels):
     roc_auc_all_seaborn = pd.DataFrame([],
                                        columns=['Antibiotic', 'False Positive Rate', 'True Positive Rate', 'Algorithm'])
@@ -103,17 +134,25 @@ def do_algorithms(prop, mic_set, x_train, x_test, y_train, y_test, labels):
             # gs_results = xgb.grid_search(x_train, y_train[col])
             gs_results = rf.grid_search(x_train, y_train[col])
             for _, row in gs_results.iterrows():
-                overall_gs_results = overall_gs_results.append({'Antibiotic': col, 'F1-micro Score': row['mean_test_score'], 'min_samples_leaf': row['param_min_samples_leaf'], 'min_samples_split': row['param_min_samples_split'], 'max_depth': row['param_max_depth']},
-                               ignore_index=True)
+                overall_gs_results = overall_gs_results.append({'Antibiotic': col,
+                                                                'F1-micro Score': row['mean_test_score'],
+                                                                'min_samples_leaf': row['param_min_samples_leaf'],
+                                                                'min_samples_split': row['param_min_samples_split'],
+                                                                'max_depth': row['param_max_depth']},
+                                                               ignore_index=True)
         else:
             classes = labels[col].unique()
             classes.sort()
 
-            xgb = forests.GradientForest(prop, col, classes)    # XGBoost
-            rf = forests.RandomForest(prop, col)                # Random Forest
+            # x_train_ds, y_train_ds = down_sample(x_train, y_train[col])
+            x_train_ds, y_train_ds = x_train, y_train[col]
+
+            xgb = forests.GradientForest(prop, col, classes)                    # XGBoost
+            rf = forests.RandomForest(prop, col)                                # Random Forest
+            dense_nn = nn.DenseNN(prop, col, len(x_train.columns), classes)     # Dense Neural Network
 
             print('\tTraining XGBoost model')
-            xgb.train(x_train, y_train[col])
+            xgb.train(x_train_ds, y_train_ds)
             print('\tTesting XGBoost model')
             fpr, tpr, roc_auc, f1_scores, f1_micro = xgb.test(x_test, y_test[col])
             print('\tSaving feature importance values')
@@ -140,7 +179,7 @@ def do_algorithms(prop, mic_set, x_train, x_test, y_train, y_test, labels):
 
             # Random Forest
             print('\tTraining Random Forest model')
-            rf.train(x_train, y_train[col])
+            rf.train(x_train_ds, y_train_ds)
             print('\tTesting Random Forest model')
             fpr, tpr, roc_auc, f1_scores, f1_micro = rf.test(x_test, y_test[col])
             print('\tSaving feature importance values')
@@ -164,6 +203,29 @@ def do_algorithms(prop, mic_set, x_train, x_test, y_train, y_test, labels):
                 f1 = f1.append({'Antibiotic': col, 'F1 Score': score, 'mic': mic, 'Algorithm': 'Random Forest'},
                                ignore_index=True)
 
+            print('\t=========================================================================')
+
+            print('\tTraining Dense NN model')
+            dense_nn.train(x_train_ds, y_train_ds)
+            print('\tTesting Dense NN model')
+            fpr, tpr, roc_auc, f1_scores, f1_micro = dense_nn.test(x_test, y_test[col])
+
+            print('\tPlotting analysis graphs')
+            analysis.plot_single_average_roc(fpr, tpr, roc_auc, prop, f'dense/{col}_micro_average_roc')
+            analysis.plot_all_roc(fpr, tpr, roc_auc, prop, f'dense/{col}_all_roc', mic_set['MICs'].values)
+            analysis.plot_feat_imp_bar_graph(feature_imp, prop, f'dense/{col}_feat_importance')
+
+            all_f1_micro = all_f1_micro.append({'Antibiotic': col, 'F1 Score': f1_micro, 'Algorithm': 'Dense NN'},
+                                               ignore_index=True)
+            for f, t in zip(fpr['micro'], tpr['micro']):
+                roc_auc_all_seaborn = roc_auc_all_seaborn.append(
+                    {'Antibiotic': col, 'False Positive Rate': f, 'True Positive Rate': t, 'Algorithm': 'Dense NN'},
+                    ignore_index=True)
+
+            for mic, score in enumerate(f1_scores):
+                f1 = f1.append({'Antibiotic': col, 'F1 Score': score, 'mic': mic, 'Algorithm': 'Dense NN'},
+                               ignore_index=True)
+
         if DO_GRID_SEARCH:
             print('Saving Grid Search results and plotting')
             overall_gs_results.to_csv(f'{prop.output_dir}/grid_search/rf.csv')  # Change this line when changing algorithms
@@ -176,6 +238,7 @@ def do_algorithms(prop, mic_set, x_train, x_test, y_train, y_test, labels):
             all_f1_micro.to_csv(f'{prop.output_dir}f1_test_micro_scores.csv', index=False)
             print("Plotting All ROC curves")
             analysis.plot_all_average_roc(roc_auc_all_seaborn, prop, "all_micro_average_roc")
+
 
 
 def should_do_preprocessing(prop):

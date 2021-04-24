@@ -83,10 +83,15 @@ def plot_all_average_roc(roc, properties, file_name):
     dashes['chance'] = (4, 4)
 
     for i in [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]:
-        roc = roc.append({'Antibiotic': 'chance', 'False Positive Rate': i, 'True Positive Rate': i, 'Algorithm': 'Xgboost'},
-                                   ignore_index=True)
-        roc = roc.append({'Antibiotic': 'chance', 'False Positive Rate': i, 'True Positive Rate': i, 'Algorithm': 'Random Forest'},
-                         ignore_index=True)
+        roc = roc.append(
+            {'Antibiotic': 'chance', 'False Positive Rate': i, 'True Positive Rate': i, 'Algorithm': 'Xgboost'},
+            ignore_index=True)
+        roc = roc.append(
+            {'Antibiotic': 'chance', 'False Positive Rate': i, 'True Positive Rate': i, 'Algorithm': 'Random Forest'},
+            ignore_index=True)
+        roc = roc.append(
+            {'Antibiotic': 'chance', 'False Positive Rate': i, 'True Positive Rate': i, 'Algorithm': 'Dense NN'},
+            ignore_index=True)
 
     #sns.lineplot(data=pd.DataFrame(chance, columns={'False Positive Rate', 'True Positive Rate'}), x='False Positive Rate', y='True Positive Rate')
     #plt.plot([0, 1], [0, 1], color='black', lw=2, linestyle='--')
