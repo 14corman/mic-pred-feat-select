@@ -1,2 +1,2 @@
 # Analysis
-The analysis files (excel, csv, ect) and graph files will be placed here.
+The overall analysis files go here. That means any plots or data that is produced when anaylzing the output (either directly or from output folder) of the algorithms. Each algorithm has its own folder here that gives specific analysis files in it specific for that algorithm. Files given in main folder are for all algorithms put together.

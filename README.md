@@ -23,16 +23,7 @@ Figure 2 is a symmetric jitter dot plot showing F1 scores for each Machine Learn
 # Materials and methods
 
 ## Sequences
-The gene sequences are collected and sequenced using Illumina sequencing at JMI Laboratories. The sequences are then run through an annotation pipeline that I have made to generate the annotations and annotated AA sequences.
-
-## Preprocessing
-### HGVS annotations
-Convert annotation into a score using BLOSUM62 substitution matrix. Inserts and deletions are counted as 1 positon regardless of how many AA were inserted or delted. This would essentially be a list of scores for each bacterial isolate.
-
-### AA sequences
-Each position in the sequence is marked with:
-* 1 - if a mutation occurred at that position in the sequence (inserts and deletions count as a single position)
-* -1 - no mutation occurred at that position in the sequence
+The gene sequences are collected and sequenced using Illumina sequencing at JMI Laboratories. The sequences are then run through an annotation pipeline to generate the annotations and annotated AA sequences.
 
 ## Algorithms
 There are two algorithms that will be used for prediction:
@@ -42,9 +33,9 @@ There are two algorithms that will be used for prediction:
 
 ## Steps
 1. Collect input data from JMI and Annotation pipeline
-2. Preprocess that data as described above
+2. Preprocess that data
 3. Separate processed dataset into Training and Testing dataset
-4. Train Neural Network and Random Forest separately on same Training dataset
-5. Test both algorithms with the Testing dataset (capture predictions from this)
+4. Train Neural Network, Random Forest, and XGBoost separately on same Training dataset
+5. Test algorithms with the Testing dataset (capture predictions from this)
 6. Create ROC plot and F1 scores from predictions and actual MICs used in previous step
 7. Create final ROC plot (figure 1) and F1 scores plot (figure 2)
