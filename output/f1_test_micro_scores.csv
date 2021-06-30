@@ -1,16 +1,15 @@
 Antibiotic,F1 Score,mic,Algorithm
-Antibiotic_1,0.0163265306122449,,Xgboost
-Antibiotic_1,0.036734693877551024,,Random Forest
-Antibiotic_1,0.036734693877551024,,Dense NN
-Antibiotic_2,0.00816326530612245,,Xgboost
-Antibiotic_2,0.00816326530612245,,Random Forest
-Antibiotic_2,0.00816326530612245,,Dense NN
-Antibiotic_3,0.0,,Xgboost
-Antibiotic_3,0.0,,Random Forest
-Antibiotic_3,0.0,,Dense NN
-Antibiotic_4,0.0163265306122449,,Xgboost
-Antibiotic_4,0.036734693877551024,,Random Forest
-Antibiotic_4,0.036734693877551024,,Dense NN
-Antibiotic_5,0.6979591836734694,,Xgboost
-Antibiotic_5,0.6979591836734694,,Random Forest
-Antibiotic_5,0.6979591836734694,,Dense NN
+Meropenem,0.12914485165794065,,Dense NN
+Piperacillin-tazobactam,0.4363001745200698,,Dense NN
+Aztreonam,0.010471204188481676,,Dense NN
+Ceftriaxone,0.02268760907504363,,Dense NN
+Ceftaroline,0.0,,Dense NN
+Cefepime,0.6265270506108203,,Dense NN
+Ampicillin-sulbactam,0.0,,Dense NN
+Ceftazidime-avibactam,0.06980802792321117,,Dense NN
+Ceftobiprole,0.0,,Dense NN
+Imipenem,0.0,,Dense NN
+Ceftolozane-tazobactam,0.0,,Dense NN
+Doripenem,0.0,,Dense NN
+Ceftazidime,0.0,,Dense NN
+MeroRPX7009_fixed8,0.0,,Dense NN

@@ -7,3 +7,4 @@ Created on Mar 24 6:55 PM 2021
 """
 
 from .dense import check_and_create_dense_folders, DenseNN
+from .lstm import check_and_create_lstm_folders, LstmNN

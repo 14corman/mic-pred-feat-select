@@ -1,122 +1,161 @@
 Antibiotic,F1 Score,Algorithm,mic
-Antibiotic_1,0.05095541401273885,Xgboost,0.0
-Antibiotic_1,0.0,Xgboost,1.0
-Antibiotic_1,0.0,Xgboost,2.0
-Antibiotic_1,0.0,Xgboost,3.0
-Antibiotic_1,0.0,Xgboost,4.0
-Antibiotic_1,0.0,Xgboost,5.0
-Antibiotic_1,0.0,Xgboost,6.0
-Antibiotic_1,0.10975609756097561,Random Forest,0.0
-Antibiotic_1,0.0,Random Forest,1.0
-Antibiotic_1,0.0,Random Forest,2.0
-Antibiotic_1,0.0,Random Forest,3.0
-Antibiotic_1,0.0,Random Forest,4.0
-Antibiotic_1,0.0,Random Forest,5.0
-Antibiotic_1,0.0,Random Forest,6.0
-Antibiotic_1,0.11111111111111109,Dense NN,0.0
-Antibiotic_1,0.0,Dense NN,1.0
-Antibiotic_1,0.0,Dense NN,2.0
-Antibiotic_1,0.0,Dense NN,3.0
-Antibiotic_1,0.0,Dense NN,4.0
-Antibiotic_1,0.0,Dense NN,5.0
-Antibiotic_1,0.0,Dense NN,6.0
-Antibiotic_2,0.0,Xgboost,0.0
-Antibiotic_2,0.0,Xgboost,1.0
-Antibiotic_2,0.0,Xgboost,2.0
-Antibiotic_2,0.0,Xgboost,3.0
-Antibiotic_2,0.0,Xgboost,4.0
-Antibiotic_2,0.0,Xgboost,5.0
-Antibiotic_2,0.0,Xgboost,6.0
-Antibiotic_2,0.0,Xgboost,7.0
-Antibiotic_2,0.08333333333333333,Xgboost,8.0
-Antibiotic_2,0.0,Xgboost,9.0
-Antibiotic_2,0.0,Xgboost,10.0
-Antibiotic_2,0.0,Xgboost,11.0
-Antibiotic_2,0.0,Random Forest,0.0
-Antibiotic_2,0.0,Random Forest,1.0
-Antibiotic_2,0.0,Random Forest,2.0
-Antibiotic_2,0.0,Random Forest,3.0
-Antibiotic_2,0.0,Random Forest,4.0
-Antibiotic_2,0.0,Random Forest,5.0
-Antibiotic_2,0.0,Random Forest,6.0
-Antibiotic_2,0.0,Random Forest,7.0
-Antibiotic_2,0.0784313725490196,Random Forest,8.0
-Antibiotic_2,0.0,Random Forest,9.0
-Antibiotic_2,0.0,Random Forest,10.0
-Antibiotic_2,0.0,Random Forest,11.0
-Antibiotic_2,0.0,Dense NN,0.0
-Antibiotic_2,0.0,Dense NN,1.0
-Antibiotic_2,0.0,Dense NN,2.0
-Antibiotic_2,0.0,Dense NN,3.0
-Antibiotic_2,0.0,Dense NN,4.0
-Antibiotic_2,0.0,Dense NN,5.0
-Antibiotic_2,0.0,Dense NN,6.0
-Antibiotic_2,0.0,Dense NN,7.0
-Antibiotic_2,0.0784313725490196,Dense NN,8.0
-Antibiotic_2,0.0,Dense NN,9.0
-Antibiotic_2,0.0,Dense NN,10.0
-Antibiotic_2,0.0,Dense NN,11.0
-Antibiotic_3,0.0,Xgboost,0.0
-Antibiotic_3,0.0,Xgboost,1.0
-Antibiotic_3,0.0,Xgboost,2.0
-Antibiotic_3,0.0,Xgboost,3.0
-Antibiotic_3,0.0,Xgboost,4.0
-Antibiotic_3,0.0,Xgboost,5.0
-Antibiotic_3,0.0,Xgboost,6.0
-Antibiotic_3,0.0,Xgboost,7.0
-Antibiotic_3,0.0,Xgboost,8.0
-Antibiotic_3,0.0,Random Forest,0.0
-Antibiotic_3,0.0,Random Forest,1.0
-Antibiotic_3,0.0,Random Forest,2.0
-Antibiotic_3,0.0,Random Forest,3.0
-Antibiotic_3,0.0,Random Forest,4.0
-Antibiotic_3,0.0,Random Forest,5.0
-Antibiotic_3,0.0,Random Forest,6.0
-Antibiotic_3,0.0,Random Forest,7.0
-Antibiotic_3,0.0,Dense NN,0.0
-Antibiotic_3,0.0,Dense NN,1.0
-Antibiotic_3,0.0,Dense NN,2.0
-Antibiotic_3,0.0,Dense NN,3.0
-Antibiotic_3,0.0,Dense NN,4.0
-Antibiotic_3,0.0,Dense NN,5.0
-Antibiotic_3,0.0,Dense NN,6.0
-Antibiotic_3,0.0,Dense NN,7.0
-Antibiotic_3,0.0,Dense NN,8.0
-Antibiotic_4,0.05095541401273885,Xgboost,0.0
-Antibiotic_4,0.0,Xgboost,1.0
-Antibiotic_4,0.0,Xgboost,2.0
-Antibiotic_4,0.0,Xgboost,3.0
-Antibiotic_4,0.0,Xgboost,4.0
-Antibiotic_4,0.0,Xgboost,5.0
-Antibiotic_4,0.0,Xgboost,6.0
-Antibiotic_4,0.10975609756097561,Random Forest,0.0
-Antibiotic_4,0.0,Random Forest,1.0
-Antibiotic_4,0.0,Random Forest,2.0
-Antibiotic_4,0.0,Random Forest,3.0
-Antibiotic_4,0.0,Random Forest,4.0
-Antibiotic_4,0.0,Random Forest,5.0
-Antibiotic_4,0.0,Random Forest,6.0
-Antibiotic_4,0.10909090909090909,Dense NN,0.0
-Antibiotic_4,0.0,Dense NN,1.0
-Antibiotic_4,0.0,Dense NN,2.0
-Antibiotic_4,0.0,Dense NN,3.0
-Antibiotic_4,0.0,Dense NN,4.0
-Antibiotic_4,0.0,Dense NN,5.0
-Antibiotic_4,0.0,Dense NN,6.0
-Antibiotic_5,0.8221153846153847,Xgboost,0.0
-Antibiotic_5,0.0,Xgboost,1.0
-Antibiotic_5,0.0,Xgboost,2.0
-Antibiotic_5,0.0,Xgboost,3.0
-Antibiotic_5,0.0,Xgboost,4.0
-Antibiotic_5,0.0,Xgboost,5.0
-Antibiotic_5,0.8221153846153847,Random Forest,0.0
-Antibiotic_5,0.0,Random Forest,1.0
-Antibiotic_5,0.0,Random Forest,2.0
-Antibiotic_5,0.0,Random Forest,3.0
-Antibiotic_5,0.0,Random Forest,4.0
-Antibiotic_5,0.8221153846153847,Dense NN,0.0
-Antibiotic_5,0.0,Dense NN,1.0
-Antibiotic_5,0.0,Dense NN,2.0
-Antibiotic_5,0.0,Dense NN,3.0
-Antibiotic_5,0.0,Dense NN,4.0
-Antibiotic_5,0.0,Dense NN,5.0
+Meropenem,0.0,Dense NN,0.0
+Meropenem,0.22874806800618233,Dense NN,1.0
+Meropenem,0.0,Dense NN,2.0
+Meropenem,0.0,Dense NN,3.0
+Meropenem,0.0,Dense NN,4.0
+Meropenem,0.0,Dense NN,5.0
+Meropenem,0.0,Dense NN,6.0
+Meropenem,0.0,Dense NN,7.0
+Meropenem,0.0,Dense NN,8.0
+Meropenem,0.0,Dense NN,9.0
+Meropenem,0.0,Dense NN,10.0
+Meropenem,0.0,Dense NN,11.0
+Meropenem,0.0,Dense NN,12.0
+Piperacillin-tazobactam,0.0,Dense NN,0.0
+Piperacillin-tazobactam,0.0,Dense NN,1.0
+Piperacillin-tazobactam,0.6075334143377885,Dense NN,2.0
+Piperacillin-tazobactam,0.0,Dense NN,3.0
+Piperacillin-tazobactam,0.0,Dense NN,4.0
+Piperacillin-tazobactam,0.0,Dense NN,5.0
+Piperacillin-tazobactam,0.0,Dense NN,6.0
+Piperacillin-tazobactam,0.0,Dense NN,7.0
+Piperacillin-tazobactam,0.0,Dense NN,8.0
+Piperacillin-tazobactam,0.0,Dense NN,9.0
+Piperacillin-tazobactam,0.0,Dense NN,10.0
+Piperacillin-tazobactam,0.0,Dense NN,11.0
+Piperacillin-tazobactam,0.0,Dense NN,12.0
+Aztreonam,0.020725388601036274,Dense NN,0.0
+Aztreonam,0.0,Dense NN,1.0
+Aztreonam,0.0,Dense NN,2.0
+Aztreonam,0.0,Dense NN,3.0
+Aztreonam,0.0,Dense NN,4.0
+Aztreonam,0.0,Dense NN,5.0
+Aztreonam,0.0,Dense NN,6.0
+Aztreonam,0.0,Dense NN,7.0
+Aztreonam,0.0,Dense NN,8.0
+Aztreonam,0.0,Dense NN,9.0
+Aztreonam,0.0,Dense NN,10.0
+Ceftriaxone,0.04436860068259385,Dense NN,0.0
+Ceftriaxone,0.0,Dense NN,1.0
+Ceftriaxone,0.0,Dense NN,2.0
+Ceftriaxone,0.0,Dense NN,3.0
+Ceftriaxone,0.0,Dense NN,4.0
+Ceftriaxone,0.0,Dense NN,5.0
+Ceftriaxone,0.0,Dense NN,6.0
+Ceftriaxone,0.0,Dense NN,7.0
+Ceftriaxone,0.0,Dense NN,8.0
+Ceftaroline,0.0,Dense NN,0.0
+Ceftaroline,0.0,Dense NN,1.0
+Ceftaroline,0.0,Dense NN,2.0
+Ceftaroline,0.0,Dense NN,3.0
+Ceftaroline,0.0,Dense NN,4.0
+Ceftaroline,0.0,Dense NN,5.0
+Ceftaroline,0.0,Dense NN,6.0
+Ceftaroline,0.0,Dense NN,7.0
+Ceftaroline,0.0,Dense NN,8.0
+Ceftaroline,0.0,Dense NN,9.0
+Ceftaroline,0.0,Dense NN,10.0
+Ceftaroline,0.0,Dense NN,11.0
+Cefepime,0.0,Dense NN,0.0
+Cefepime,0.0,Dense NN,1.0
+Cefepime,0.7703862660944206,Dense NN,2.0
+Cefepime,0.0,Dense NN,3.0
+Cefepime,0.0,Dense NN,4.0
+Cefepime,0.0,Dense NN,5.0
+Cefepime,0.0,Dense NN,6.0
+Cefepime,0.0,Dense NN,7.0
+Cefepime,0.0,Dense NN,8.0
+Cefepime,0.0,Dense NN,9.0
+Cefepime,0.0,Dense NN,10.0
+Cefepime,0.0,Dense NN,11.0
+Cefepime,0.0,Dense NN,12.0
+Cefepime,0.0,Dense NN,13.0
+Cefepime,0.0,Dense NN,14.0
+Cefepime,0.0,Dense NN,15.0
+Cefepime,0.0,Dense NN,16.0
+Ampicillin-sulbactam,0.0,Dense NN,0.0
+Ampicillin-sulbactam,0.0,Dense NN,1.0
+Ampicillin-sulbactam,0.0,Dense NN,2.0
+Ampicillin-sulbactam,0.0,Dense NN,3.0
+Ampicillin-sulbactam,0.0,Dense NN,4.0
+Ampicillin-sulbactam,0.0,Dense NN,5.0
+Ceftazidime-avibactam,0.0,Dense NN,0.0
+Ceftazidime-avibactam,0.0,Dense NN,1.0
+Ceftazidime-avibactam,0.0,Dense NN,2.0
+Ceftazidime-avibactam,0.0,Dense NN,3.0
+Ceftazidime-avibactam,0.06827309236947791,Dense NN,4.0
+Ceftazidime-avibactam,0.0,Dense NN,5.0
+Ceftazidime-avibactam,0.0,Dense NN,6.0
+Ceftazidime-avibactam,0.21800947867298573,Dense NN,7.0
+Ceftazidime-avibactam,0.0,Dense NN,8.0
+Ceftazidime-avibactam,0.0,Dense NN,9.0
+Ceftazidime-avibactam,0.0,Dense NN,10.0
+Ceftazidime-avibactam,0.0,Dense NN,11.0
+Ceftobiprole,0.0,Dense NN,0.0
+Ceftobiprole,0.0,Dense NN,1.0
+Ceftobiprole,0.0,Dense NN,2.0
+Ceftobiprole,0.0,Dense NN,3.0
+Ceftobiprole,0.0,Dense NN,4.0
+Ceftobiprole,0.0,Dense NN,5.0
+Ceftobiprole,0.0,Dense NN,6.0
+Ceftobiprole,0.0,Dense NN,7.0
+Ceftobiprole,0.0,Dense NN,8.0
+Ceftobiprole,0.0,Dense NN,9.0
+Ceftobiprole,0.0,Dense NN,10.0
+Ceftobiprole,0.0,Dense NN,11.0
+Ceftobiprole,0.0,Dense NN,12.0
+Imipenem,0.0,Dense NN,0.0
+Imipenem,0.0,Dense NN,1.0
+Imipenem,0.0,Dense NN,2.0
+Imipenem,0.0,Dense NN,3.0
+Imipenem,0.0,Dense NN,4.0
+Imipenem,0.0,Dense NN,5.0
+Imipenem,0.0,Dense NN,6.0
+Imipenem,0.0,Dense NN,7.0
+Ceftolozane-tazobactam,0.0,Dense NN,0.0
+Ceftolozane-tazobactam,0.0,Dense NN,1.0
+Ceftolozane-tazobactam,0.0,Dense NN,2.0
+Ceftolozane-tazobactam,0.0,Dense NN,3.0
+Ceftolozane-tazobactam,0.0,Dense NN,4.0
+Ceftolozane-tazobactam,0.0,Dense NN,5.0
+Ceftolozane-tazobactam,0.0,Dense NN,6.0
+Ceftolozane-tazobactam,0.0,Dense NN,7.0
+Ceftolozane-tazobactam,0.0,Dense NN,8.0
+Ceftolozane-tazobactam,0.0,Dense NN,9.0
+Ceftolozane-tazobactam,0.0,Dense NN,10.0
+Ceftolozane-tazobactam,0.0,Dense NN,11.0
+Doripenem,0.0,Dense NN,0.0
+Doripenem,0.0,Dense NN,1.0
+Doripenem,0.0,Dense NN,2.0
+Doripenem,0.0,Dense NN,3.0
+Doripenem,0.0,Dense NN,4.0
+Doripenem,0.0,Dense NN,5.0
+Doripenem,0.0,Dense NN,6.0
+Doripenem,0.0,Dense NN,7.0
+Doripenem,0.0,Dense NN,8.0
+Ceftazidime,0.0,Dense NN,0.0
+Ceftazidime,0.0,Dense NN,1.0
+Ceftazidime,0.0,Dense NN,2.0
+Ceftazidime,0.0,Dense NN,3.0
+Ceftazidime,0.0,Dense NN,4.0
+Ceftazidime,0.0,Dense NN,5.0
+Ceftazidime,0.0,Dense NN,6.0
+Ceftazidime,0.0,Dense NN,7.0
+Ceftazidime,0.0,Dense NN,8.0
+Ceftazidime,0.0,Dense NN,9.0
+Ceftazidime,0.0,Dense NN,10.0
+MeroRPX7009_fixed8,0.0,Dense NN,0.0
+MeroRPX7009_fixed8,0.0,Dense NN,1.0
+MeroRPX7009_fixed8,0.0,Dense NN,2.0
+MeroRPX7009_fixed8,0.0,Dense NN,3.0
+MeroRPX7009_fixed8,0.0,Dense NN,4.0
+MeroRPX7009_fixed8,0.0,Dense NN,5.0
+MeroRPX7009_fixed8,0.0,Dense NN,6.0
+MeroRPX7009_fixed8,0.0,Dense NN,7.0
+MeroRPX7009_fixed8,0.0,Dense NN,8.0
+MeroRPX7009_fixed8,0.0,Dense NN,9.0
+MeroRPX7009_fixed8,0.0,Dense NN,10.0
+MeroRPX7009_fixed8,0.0,Dense NN,11.0
+MeroRPX7009_fixed8,0.0,Dense NN,12.0
+MeroRPX7009_fixed8,0.0,Dense NN,13.0

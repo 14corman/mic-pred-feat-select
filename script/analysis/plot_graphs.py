@@ -73,6 +73,14 @@ def plot_single_average_roc(fpr, tpr, roc_auc, properties, file_name):
     _free_plot_memory()
 
 
+def plot_nn_train_error_history(loss_pd, properties, file_name):
+    sns.relplot(data=loss_pd, x='epoch', y='error', hue='Type',  col='Model', kind='line')
+
+    sns.despine()  # Remove the top and right graph lines
+    plt.savefig(f'{properties.analysis_dir}{file_name}.jpeg', bbox_inches='tight')
+    _free_plot_memory()
+
+
 def plot_all_average_roc(roc, properties, file_name):
     #sns.lineplot(data=roc, x='False Positive Rate', y='True Positive Rate', hue='Antibiotic', style='Algorithm')
 

@@ -14,9 +14,15 @@ import numpy as np
 def get_mics(col):
     def try_extract(x):
         if isinstance(x, str):
-            return float(x.lstrip('<=').lstrip('>'))
+            if "<=" in x:
+                return -2.0
+            if ">" in x:
+                return -1.0
+
+            return float(x)
+            # return float(x.lstrip('<=').lstrip('>'))
         elif np.isnan(x):
-            return -1.0
+            return -3.0
         else:
             return float(x)
     return pd.Series([try_extract(x) for x in col], dtype=float)
@@ -31,19 +37,47 @@ def create_label_data(properties):
     ompk35 = pd.read_csv(f'{properties.data_dir}{properties.main_data}antibiotics_OMPK35.tsv', sep='\t', index_col=0)
     ompk36 = pd.read_csv(f'{properties.data_dir}{properties.main_data}antibiotics_OMPK36.tsv', sep='\t', index_col=0)
     ompk37 = pd.read_csv(f'{properties.data_dir}{properties.main_data}antibiotics_OMPK37.tsv', sep='\t', index_col=0)
-    labels_df = pd.concat([ompk35, ompk36, ompk37], axis=1)                 # Combine all genes together
-    labels_df = labels_df[labels_df.index != 'consensus']                   # Remove consensus row
-    labels_df = labels_df[labels_df.index != 'reference']                   # Remove reference row
+
+    # Merges all columns in each dataframe while keeping the non-null values
+    labels_df = ompk35
+    labels_df = labels_df.combine_first(ompk36)
+    labels_df = labels_df.combine_first(ompk37)
+    labels_df = labels_df[labels_df.index != 'consensus']  # Remove consensus row
+    labels_df = labels_df[labels_df.index != 'reference']  # Remove reference row
+
+    # Only get Beta-lactam antibiotics
+    beta_lactams = ['Penicillin', 'Amoxicillin', 'Ampicillin', 'Piperacillin', 'Oxacillin', 'Mecillinam',
+                    'Amoxicillin-clavulanate', 'Ampicillin-sulbactam', 'Aztreonam-avibactam',
+                    'Cefepime-tazobactam', 'Cefepime-zidebactam', 'Cefoperazone-sulbactam',
+                    'Ceftaroline-avibactam', 'Ceftazidime-avibactam', 'Ceftibuten-clavulanate_fixed_2',
+                    'Ceftibuten-clavulanate_2_to_1',
+                    'Ceftolozane-tazobactam', 'Meropenem-nacubactam', 'Meropenem-vaborbactam',
+                    'Piperacillin-tazobactam', 'Ticarcillin-clavulanate', 'Cefazolin', 'Cefuroxime',
+                    'Cefoperazone', 'Ceftazidime', 'Ceftriaxone', 'Cefepime', 'Ceftaroline', 'Ceftobiprole',
+                    'Cefoxitin', 'Cefiderocol', 'Cefpodoxime', 'Cefpodoxime_ETX1317', 'Ceftibuten', 'Cefuroxime',
+                    'Cephalexin',
+                    'Aztreonam', 'Biapenem', 'Doripenem', 'Ertapenem', 'Imipenem', 'Meropenem', 'MeroRPX7009_fixed8',
+                    'Razupenem',
+                    'Tebipenem', 'Faropenem', 'Sulopenem']
+
+    labels_df = labels_df[[c for c in labels_df.columns if c in beta_lactams]]
+
+    # Filter out columns with >=15% 0's (NaN's/null values)
+    # Code found from: https://stackoverflow.com/a/31618099
+    max_number_of_nans = len(labels_df.index) * 0.15
+    labels_df = labels_df.drop(labels_df.columns[labels_df.apply(lambda col: col.isnull().sum() >= max_number_of_nans)],
+                               axis=1)
+
     labels_df = labels_df.apply(get_mics, axis=1, result_type='broadcast')  # Remove characters and make all values floats
 
     # Get the set of MIC values being used in study
+    # -3.0 = 0 = NaN
+    # -2.0 = 1 = MIC had <= (off left side of plate)
+    # -1.0 = 2 = MIC had > (off right side of place)
+    # Otherwise = MIC
     set_mics = list(set(np.concatenate(labels_df.values)))
     set_mics.sort()
     labels_df = labels_df.apply(encode_mics, axis=1, result_type='broadcast', set_mics=set_mics)
-
-    # ==================Remove and chose actual antibiotics to include====================================
-    labels_df = labels_df.sample(n=5, axis='columns')
-    labels_df.columns = ['Antibiotic_1', 'Antibiotic_2', 'Antibiotic_3', 'Antibiotic_4', 'Antibiotic_5']
 
     labels_df.to_csv(f'{properties.data_dir}{properties.processed_data}labels.csv')
     pd.DataFrame({"MICs": set_mics}).to_csv(f'{properties.data_dir}{properties.processed_data}mic_set.csv', index=False)
