@@ -12,7 +12,7 @@ There are two algorithms that will be used for prediction:
 ## Steps
 1. Collect Fastas and MIC CSV file (put them in `data` folder)
 2. Run `python get_format_data.py`
-3. Zip up `train.libsvm` and put that in an S3 bucket
+3. Zip up `train.libsvm` and put that zip file in an S3 bucket
 4. Put `xgboost.ipynb` in Sagemaker, modify to point to `train.zip` in S3, and run all cells
 5. Collect trained XGBoost model and control XGBoost model and put them in `output/models`
 6. Run `python xgboost_test.py` to get `feature_importance.csv` and test results for XGBoost models

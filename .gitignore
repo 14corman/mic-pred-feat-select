@@ -131,14 +131,9 @@ dmypy.json
 # main and preprocessed data
 data/main/
 data/processed
-data/data_type_2
-data/processed_old
 
 # VS code
 .vscode/
 
-# Only accept the readme and jupyter notebooks in notebooks folder
-notebooks/*.csv
-notebooks/*.model
-notebooks/*.txt
-notebooks/*.joblib
+script/.idea/
+.idea/
