@@ -1,6 +1,5 @@
-# MPGA
-Mic Prediction using Gene Annotation
-
+# MIC prediction and feature selection
+MIC Prediction and FeatureSelection using XGBoost for Neural Networks
 
 ## Data
 contig fasta files were collected from Klebsila Pneumoniae (KPN).
@@ -21,3 +20,5 @@ There are two algorithms that will be used for prediction:
 8. Run `python nn.py files` to generate NN training, validation, and testing files. Take note of the console output to update the `nn.py` file.
 9. Run `python nn.py train` and note the file name of the best model hdf5 file. Modify `nn.py` with that name (delete all other hdf5 files)
 10. Run `python nn.py test` to test NN model
+
+For more information/detail on each step, visit the respective folders/script files.
