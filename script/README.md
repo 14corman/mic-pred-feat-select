@@ -1,29 +1,15 @@
 # Scripts
-All Python scripts go here. They will be sectioned off by their purpose. 
-All files can be called by using main.py file.
+All Python scripts go here. 
 
-### \_\_init\_\_.py files
-If you are new to python, you may not know what  `__init__.py` files are. These files denote 
-subpackages that can be used. So, for example, if I wanted to use a file under `random_forest` directory,
-I could have something like
+## Getting libraries set up
+There is a `requirements.txt` file in this folder that will allow you to have the same library versions that was used when originally running these scripts. You can run this script, after you have a venv set up for python, by running `pip install -r requirements.txt` within this directory.
 
-```python
-import forests as rf 
-```
+## Order to call scripts
+1. `python get_format_data.py`
+2. (RUN XGBoost training jupyter notebook in Sagemaker to train XGBoost)
+3. `python xgboost_test.py`
+4. `python nn.py files`
+5. `python nn.py train`
+6. `python nn.py test`
 
-That would then allow me to call `rf.(something from random_forest directory)`. You can think of these files 
-like initialization for a subpackage. You can import other packages in an `__init__.py` file, create variables
-, have specific functions for that subpackage, etc. For example, if te random_forest had an `__init__.py`
-like the following
-
-```python
-from xgboost import Forrest
-
-def print_forrest(forrest):
-    print("do something to print forrest here")
-
-main_forrest = "xgboost"
-```
-
-Then you could use `rf.print_forrest(forrest)`, `rf.Forrest()`, or `print(rf.main_forrest)` using the rf
-variable imported above.
+For more information, look at the file comment at the top of each python file. There will be more documentation and instructions for each file there.
