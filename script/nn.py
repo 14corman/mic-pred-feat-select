@@ -35,8 +35,10 @@ Generating the files and Training function can be run back-to-back.
 Then, you need to set BEST_NN_MODEL and only run test function.
 
 """
-
+import sklearn
 from tensorflow.keras.models import Sequential, load_model
+from sklearn.model_selection import RepeatedKFold, cross_val_score
+from tensorflow.keras.wrappers.scikit_learn import KerasRegressor
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.callbacks import ModelCheckpoint
 import matplotlib.pyplot as plt
@@ -187,7 +189,7 @@ def generate_arrays_from_file(path, batch_size):
                     batch_count = 0
 
 
-def train_model():
+def build_model():
     # Create the model
     model = Sequential()
     model.add(Dense(50, input_dim=len(FEATURES_TO_USE), activation='relu'))
@@ -200,6 +202,41 @@ def train_model():
                   optimizer=tensorflow.keras.optimizers.Adam(),
                   metrics=['mean_squared_error'])
 
+    return model
+
+
+def cross_validate():
+    X = []
+    y = []
+    with open(f"{DATA_PATH}nn_train") as f:
+        for line in f:
+            mic, xs = line.split(":")
+            mic = int(mic)
+            X.append(np.array(xs.split(","), dtype='float32'))
+            y.append(mic)
+
+    with open(f"{DATA_PATH}nn_validation") as f:
+        for line in f:
+            mic, xs = line.split(":")
+            mic = int(mic)
+            X.append(np.array(xs.split(","), dtype='float32'))
+            y.append(mic)
+
+    X = np.array(X, dtype='float32')
+    y = np.array(y, dtype='float32')
+
+    estimator = KerasRegressor(build_fn=build_model, epochs=100, batch_size=BATCH_SIZE, verbose=2)
+    k_fold = RepeatedKFold(n_splits=10, n_repeats=1)
+
+    # Only do 1 job as not enough memory to do multiple at once
+    # print(sorted(sklearn.metrics.SCORERS.keys()))
+    results = cross_val_score(estimator, X, y, cv=k_fold, n_jobs=1, scoring='neg_mean_squared_error')
+    print(f"Cross validation MSE: {-results.mean()}")  # Mean MSE
+    # Cross validation MSE: 3.501931071281433
+
+
+def train_model():
+    model = build_model()
     best_model_path = OUTPUT_PATH + "best_nn_model.epoch{epoch:02d}-loss{val_loss:.2f}.hdf5"
     checkpoint = ModelCheckpoint(filepath=best_model_path,
                                  monitor="val_loss", save_best_only=True, mode="min")
@@ -267,6 +304,7 @@ if __name__ == "__main__":
     if run_command == "files":
         generate_nn_files()
     elif run_command == "train":
+        cross_validate()
         train_model()
     elif run_command == "test":
         test_nn_model()
