@@ -35,7 +35,6 @@ Generating the files and Training function can be run back-to-back.
 Then, you need to set BEST_NN_MODEL and only run test function.
 
 """
-import sklearn
 from tensorflow.keras.models import Sequential, load_model
 from sklearn.model_selection import RepeatedKFold, cross_val_score
 from tensorflow.keras.wrappers.scikit_learn import KerasRegressor
@@ -109,7 +108,13 @@ class REMatcher(object):
         return self.rematch.group(i)
 
 
+def load_best_model():
+    """Used both in this file and nn_analysis.py"""
+    return load_model(BEST_NN_MODEL)
+
+
 def generate_nn_files():
+    """Generate the train, validation, and test files needed"""
     num_train_lines = 0
     num_val_lines = 0
     with open(f"{DATA_PATH}train.libsvm") as input_file, \
@@ -168,8 +173,8 @@ def generate_nn_files():
     print("If you have restarted project with new data, then you will need to update top of nn.py file with above values.")
 
 
-# Load data
 def generate_arrays_from_file(path, batch_size):
+    """Generator used to load file to stream data to Keras"""
     inputs = []
     targets = []
     batch_count = 0
@@ -229,7 +234,6 @@ def cross_validate():
     k_fold = RepeatedKFold(n_splits=10, n_repeats=1)
 
     # Only do 1 job as not enough memory to do multiple at once
-    # print(sorted(sklearn.metrics.SCORERS.keys()))
     results = cross_val_score(estimator, X, y, cv=k_fold, n_jobs=1, scoring='neg_mean_squared_error')
     print(f"Cross validation MSE: {-results.mean()}")  # Mean MSE
     # Cross validation MSE: 3.501931071281433
@@ -274,8 +278,7 @@ def set_plus_minus_1(y_true, y_pred):
 
 
 def test_nn_model():
-    model = load_model(BEST_NN_MODEL)
-
+    model = load_best_model()
     y_true = []
     y_pred = []
     with open(f"{DATA_PATH}nn_test") as f:
