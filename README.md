@@ -18,7 +18,8 @@ There are two algorithms that will be used for prediction:
 6. Run `python xgboost_test.py` to get `feature_importance.csv` and test results for XGBoost models
 7. Use `feature_importance.csv` to modify `nn.py` with most important features (all features with importance >=10 in sorted order)
 8. Run `python nn.py files` to generate NN training, validation, and testing files. Take note of the console output to update the `nn.py` file.
-9. Run `python nn.py train` and note the file name of the best model hdf5 file. Modify `nn.py` with that name (delete all other hdf5 files)
-10. Run `python nn.py test` to test NN model
+9. Run `python nn.py cv` to do grid search using 10-fold cross validation to determine best learning rate, architecture combination. Update `BEST_LEARNING_RATE`, `BEST_ARCH_SIZE`, and `BEST_DROPOUT_PROB` at top of nn.py when finished.
+10. Run `python nn.py train` and note the file name of the best model hdf5 file. Modify `nn.py` with that name (delete all other hdf5 files)
+11. Run `python nn.py test` to test NN model
 
 For more information/detail on each step, visit the respective folders/script files.

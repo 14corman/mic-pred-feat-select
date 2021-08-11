@@ -191,5 +191,5 @@ def create_mic_heatmap():
 
 
 if __name__ == "__main__":
-    # create_mic_heatmap()
+    create_mic_heatmap()
     create_error_report()
