@@ -137,3 +137,6 @@ data/processed
 
 script/.idea/
 .idea/
+
+# Ignoring error rate CSVs
+output/error_rates*
