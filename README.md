@@ -9,7 +9,18 @@ There are two algorithms that will be used for prediction:
 1. [Neural Network](https://towardsdatascience.com/understanding-neural-networks-19020b758230)
 3. [Gradient Boosted Forests](https://towardsdatascience.com/basic-ensemble-learning-random-forest-adaboost-gradient-boosting-step-by-step-explained-95d49d1e2725) (More specifically, [XGBoost](https://xgboost.readthedocs.io/en/latest/python/python_intro.html))
 
-## Steps
+## Testing your own data
+If you would like to test your own data with our best NN model, follow these steps. You should be in the repository's main directory to call step 2.
+1. Collect Fastas and MIC CSV file (put them in `data` folder)
+2. Run `python script` to run test pipeline
+
+Because testing the NN model does not require changing any of the files, the base file for `script` was made into the test pipeline. This pipeline will run the same things that the following 4 lines would run, but automatically.
+1. Run `python get_format_data.py test`
+2. Run `python nn.py files` to generate NN test file.
+3. Run `python nn.py test` to test NN model
+4. Run `python nn_analysis.py` to generate error rate CSV and MIC heatmap.
+
+## Steps to reproduce
 Note that all python run commands below must be done within the `script` directory.
 1. Collect Fastas and MIC CSV file (put them in `data` folder)
 2. Run `python get_format_data.py`
@@ -25,14 +36,3 @@ Note that all python run commands below must be done within the `script` directo
 12. Run `python nn_analysis.py` to generate error rate CSV and MIC heatmap.
 
 For more information/detail on each step, visit the respective folders/script files.
-
-## Testing your own data
-If you would like to test your own data with our best NN model, follow these steps. You should be in the repository's main directory to call step 2.
-1. Collect Fastas and MIC CSV file (put them in `data` folder)
-2. Run `python script` to run test pipeline
-
-Because testing the NN model does not require changing any of the files, the base file for `script` was made into the test pipeline. This pipeline will run the same things that the following 4 lines would run, but automatically.
-1. Run `python get_format_data.py test`
-2. Run `python nn.py files` to generate NN test file.
-3. Run `python nn.py test` to test NN model
-4. Run `python nn_analysis.py` to generate error rate CSV and MIC heatmap.
