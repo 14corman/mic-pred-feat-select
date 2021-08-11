@@ -51,6 +51,7 @@ import tensorflow
 import random
 import re
 import sys
+from pathlib import Path
 
 # Num rows
 NUM_TRAINING_ROWS = 40385
@@ -126,41 +127,42 @@ def generate_nn_files():
     """Generate the train, validation, and test files needed"""
     mics = []
     data = []
-    print("Starting to collect training data...")
-    with open(f"{DATA_PATH}train.libsvm") as input_file:
-        for line in input_file:
-            line_split = line.split(" ")
-            mic = int(line_split[0]) - 13
-            x = []
-            for feat in FEATURES_TO_USE:
-                m = REMatcher(f".+{feat}:(\\d+).*")  # Check if feature is in libsvm formatted string
-                if m.match(line):
-                    if feat > 524799:  # Features after this id are antibiotics
-                        x.append("1")
-                    else:
-                        x.append(str(m.group(1)))
-                else:
-                    if feat > 524799:  # Features after this id are antibiotics
-                        x.append("0")
-                    else:
-                        x.append("0")
-            
-            mics.append(mic)
-            data.append(x)
-
-    print("Training data collected")
     num_train_lines = 0
     num_val_lines = 0
-    with open(f"{DATA_PATH}nn_train", "w") as train_file, open(f"{DATA_PATH}nn_validation", "w") as val_file:
-        for mic, row in zip(mics, data):
-            if random.random() < 0.8:
-                train_file.write(f"{mic}:{','.join(row)}\n")
-                num_train_lines += 1
-            else:
-                val_file.write(f"{mic}:{','.join(row)}\n")
-                num_val_lines += 1
+    if Path(f"{DATA_PATH}train.libsvm").is_file():
+        print("Starting to collect training data...")
+        with open(f"{DATA_PATH}train.libsvm") as input_file:
+            for line in input_file:
+                line_split = line.split(" ")
+                mic = int(line_split[0]) - 13
+                x = []
+                for feat in FEATURES_TO_USE:
+                    m = REMatcher(f".+{feat}:(\\d+).*")  # Check if feature is in libsvm formatted string
+                    if m.match(line):
+                        if feat > 524799:  # Features after this id are antibiotics
+                            x.append("1")
+                        else:
+                            x.append(str(m.group(1)))
+                    else:
+                        if feat > 524799:  # Features after this id are antibiotics
+                            x.append("0")
+                        else:
+                            x.append("0")
 
-    print("Wrote training and validation files")
+                mics.append(mic)
+                data.append(x)
+
+        print("Training data collected")
+        with open(f"{DATA_PATH}nn_train", "w") as train_file, open(f"{DATA_PATH}nn_validation", "w") as val_file:
+            for mic, row in zip(mics, data):
+                if random.random() < 0.8:
+                    train_file.write(f"{mic}:{','.join(row)}\n")
+                    num_train_lines += 1
+                else:
+                    val_file.write(f"{mic}:{','.join(row)}\n")
+                    num_val_lines += 1
+
+        print("Wrote training and validation files")
 
     num_test_lines = 0
     with open(f"{DATA_PATH}test.libsvm") as input_file, \

@@ -10,6 +10,7 @@ There are two algorithms that will be used for prediction:
 3. [Gradient Boosted Forests](https://towardsdatascience.com/basic-ensemble-learning-random-forest-adaboost-gradient-boosting-step-by-step-explained-95d49d1e2725) (More specifically, [XGBoost](https://xgboost.readthedocs.io/en/latest/python/python_intro.html))
 
 ## Steps
+Note that all python run commands below must be done within the `script` directory.
 1. Collect Fastas and MIC CSV file (put them in `data` folder)
 2. Run `python get_format_data.py`
 3. Zip up `train.libsvm` and put that zip file in an S3 bucket
@@ -21,5 +22,15 @@ There are two algorithms that will be used for prediction:
 9. Run `python nn.py cv` to do grid search using 10-fold cross validation to determine best learning rate, architecture combination. Update `BEST_LEARNING_RATE`, `BEST_ARCH_SIZE`, and `BEST_DROPOUT_PROB` at top of nn.py when finished.
 10. Run `python nn.py train` and note the file name of the best model hdf5 file. Modify `nn.py` with that name (delete all other hdf5 files)
 11. Run `python nn.py test` to test NN model
+12. Run `python nn_analysis.py` to generate error rate CSV and MIC heatmap.
 
 For more information/detail on each step, visit the respective folders/script files.
+
+## Testing your own data
+Note that all python run commands below must be done within the `script` directory.
+If you would like to test your own data with our best NN model, follow these steps.
+1. Collect Fastas and MIC CSV file (put them in `data` folder)
+2. Run `python get_format_data.py test`
+3. Run `python nn.py files` to generate NN test file.
+4. Run `python nn.py test` to test NN model
+5. Run `python nn_analysis.py` to generate error rate CSV and MIC heatmap.

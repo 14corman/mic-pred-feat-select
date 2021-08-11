@@ -30,6 +30,7 @@ import pandas as pd
 from pathlib import Path
 import math
 import random
+import sys
 
 DATA_DIR = f"../data/main"
 PROCESSED_DIR = f"../data/processed"
@@ -107,7 +108,7 @@ def _run_kmc(contig_fasta_file):
             raise Exception(f"KMC command failed")
 
 
-def collect_data():
+def collect_data(input_type):
     mic_df = pd.read_csv(f'{DATA_DIR}/mic_data.csv', index_col=0)
     unique_kmers = set()
     # This file should already exist. If you are restarting with fresh data, make sure the file generated
@@ -175,13 +176,26 @@ def collect_data():
                             # +13 to make sure all log_2(mic) >= 0
                             tmp_kmer_string = f"{round(math.log2(float(mic))) + 13} {kmer_string}{feature_dict[ant]}:1\n"
 
-                            # Make Train test files shuffled have 80/20 split.
-                            # Data is shuffled as it can randomly be placed into train or test during processing
-                            if random.random() < 0.8:
-                                train_file.write(tmp_kmer_string)
+                            if input_type == 0:
+                                # Make Train test files shuffled have 80/20 split.
+                                # Data is shuffled as it can randomly be placed into train or test during processing
+                                if random.random() < 0.8:
+                                    train_file.write(tmp_kmer_string)
+                                else:
+                                    test_file.write(tmp_kmer_string)
                             else:
                                 test_file.write(tmp_kmer_string)
 
 
 if __name__ == "__main__":
+    if len(sys.argv) == 1:
+        collect_data(0)
+
+    run_command = sys.argv[1]
+    if run_command == "redo":
+        collect_data(0)
+    elif run_command == "test":
+        collect_data(1)
+    else:
+        raise ValueError(f"Unknown input '{run_command}'. Expected either no input or 1 of ['redo', 'test']")
     collect_data()
